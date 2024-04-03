@@ -1,0 +1,608 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+{% load url_replace %}
+{% block title %}<title>Личные дела</title>{% endblock %}
+{% block content %}
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Добавление новой записи</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="" method="post">
+
+                        <div class="shadow p-3 mb-3 bg-body rounded">
+
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <div class="mb-3">
+                                        <label class="form-label">Регистрационный номер</label><br>
+                                        {% render_field applicant_form.registration_number class+="form-control" %}
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="mb-3">
+                                        <label class="form-label">Фамилия</label><br>
+                                        {% render_field applicant_form.last_name class+="form-control" %}
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="mb-3">
+                                        <label class="form-label">Имя</label><br>
+                                        {% render_field applicant_form.first_name class+="form-control" %}
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="mb-3">
+                                        <label class="form-label">Отчество</label><br>
+                                        {% render_field applicant_form.patronymic class+="form-control" %}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Дата рождения</label><br>
+                                        {% render_field applicant_form.date_of_birth class+="form-control" %}
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Комплектующий орган</label><br>
+                                        {% render_field applicant_form.complete_from class+="form-control" %}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Адрес</label><br>
+                                        {% render_field applicant_form.address class+="form-control" rows=2 %}
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Контактыные данные законных представителей</label><br>
+                                        {% render_field applicant_form.contact_number class+="form-control" rows=2 %}
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="shadow p-3 mb-3 bg-body rounded">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Средний балл свидетельства об общем базовом
+                                            образовании</label><br>
+                                        {% render_field applicant_form.average_mark class+="form-control" min=0 %}
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">В какой класс поступает</label><br>
+                                        {% render_field applicant_form.class_he_goes_to class+="form-control" min=1 %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="shadow p-3 mb-3 bg-body rounded">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-check">
+                                        {% render_field applicant_form.there_is_application class+="form-check-input" %}
+                                        <label class="form-check-label">
+                                            Заявление (да/нет)
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-check">
+                                        {% render_field applicant_form.there_is_birth_certificate class+="form-check-input" %}
+                                        <label class="form-check-label">
+                                            Свидетельство о рождении или документ удостоверяющий личность (да/нет)
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-check">
+                                        {% render_field applicant_form.there_is_mark_sheet class+="form-check-input" %}
+                                        <label class="form-check-label">
+                                            Ведомость годовых отметок (да/нет)
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-check">
+                                        {% render_field applicant_form.there_is_characteristic class+="form-check-input" %}
+                                        <label class="form-check-label">
+                                            Характеристика
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-check">
+                                        {% render_field applicant_form.there_is_certificate_of_education class+="form-check-input" %}
+                                        <label class="form-check-label">
+                                            Свидетельство об образовании
+                                            (да/нет)
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-check">
+                                        {% render_field applicant_form.there_is_conclusion class+="form-check-input" %}
+                                        <label class="form-check-label">
+                                            Заключение об изучении кандидата (да/нет)
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-check">
+                                        {% render_field applicant_form.there_is_medical_certificate class+="form-check-input" %}
+                                        <label class="form-check-label">
+                                            Медицинская справка (да/нет)
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-check">
+                                        {% render_field applicant_form.there_is_card_extract class+="form-check-input" %}
+                                        <label class="form-check-label">
+                                            Выписка из медицинской карты за последние 5 лет (да/нет)
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-check">
+                                        {% render_field applicant_form.there_is_psychological_information class+="form-check-input" %}
+                                        <label class="form-check-label">
+                                            Медицинская справка о состоянии здоровья, подтверждающая отсутствие
+                                            психиатрического и наркологического учета (да/нет)
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="shadow p-3 mb-3 bg-body rounded">
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        <label class="form-label">Язык задания контрольной работы по учебному предмету
+                                            "Математика"</label><br>
+                                        {% render_field applicant_form.language_math class+="form-select" %}
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        <label class="form-label">Выбор учебного предмета для написания диктанта</label><br>
+                                        {% render_field applicant_form.language_for_dictation class+="form-select" %}
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        <label class="form-label">Иностранный язык в случае поступления</label><br>
+                                        {% render_field applicant_form.language_for_study class+="form-select" %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="shadow p-3 mb-3 bg-body rounded">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">
+                                            Прохождение ВВК
+                                        </label>
+                                        {% render_field applicant_form.fit class+="form-select" %}
+
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Документы, подтверждающие право на льготу</label><br>
+                                        {% render_field applicant_form.privilege class+="form-control" %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="shadow p-3 mb-3 bg-body rounded">
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        <label class="form-label">
+                                            Русский язык - отметка
+                                        </label>
+                                        {% render_field applicant_form.rus_mark class+="form-control" min=0 %}
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        <label class="form-label">
+                                            Белорусский язык - отметка
+                                        </label>
+                                        {% render_field applicant_form.bel_mark class+="form-control" min=0 %}
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        <label class="form-label">
+                                            Математика - отметка
+                                        </label>
+                                        {% render_field applicant_form.math_mark class+="form-control" min=0 %}
+                                    </div>
+                                </div>
+                                {% render_field applicant_form.sum_mark class+="form-control" min=0 hidden='true' %}
+                            </div>
+                        </div>
+                        <div class="shadow p-3 mb-3 bg-body rounded">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="mb-3">
+                                        <label class="form-label">
+                                            Примечание
+                                        </label>
+                                        {% render_field applicant_form.extra_data class+="form-control" rows=2 %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                    <button type="button" class="btn btn-primary" disabled>Создать запись</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <div class="shadow-lg p-3 my-4 bg-body rounded">
+            <h3 class="text-decoration-underline">Форма поиска</h3>
+            <form action="{% url 'applicant:applicant-list' %}">
+                {#Персональные данные #}
+                <div class="shadow p-3 mb-3 bg-body rounded">
+                    <h4>Персональные данные</h4>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="mb-3">
+                                <label class="form-label">Регистрационный номер</label>
+                                {% render_field filter.form.registration_number class+="form-control" %}
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="mb-3">
+                                <label class="form-label">Фамилия (содержит)</label>
+                                {% render_field filter.form.last_name class+="form-control" %}
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3">
+                            <div class="mb-3">
+                                <label class="form-label">Дата рождения (с)</label>
+                                {% render_field filter.form.date_of_birth_gte class+="form-control" %}
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="mb-3">
+                                <label class="form-label">Дата рождения (по)</label>
+                                {% render_field filter.form.date_of_birth_lte class+="form-control" %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {#Баллы#}
+                <div class="shadow p-3 mb-3 bg-body rounded">
+                    <h4>Вступительные испытания</h4>
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <div class="mb-3">
+                                <label class="form-label">Русский язык (с)</label>
+                                {% render_field filter.form.rus_mark_gte class+="form-control" %}
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="mb-3">
+                                <label class="form-label">Русский язык (по)</label>
+                                {% render_field filter.form.rus_mark_lte class+="form-control" %}
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="mb-3">
+                                <label class="form-label">Белорусский язык (с)</label>
+                                {% render_field filter.form.bel_mark_gte class+="form-control" %}
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="mb-3">
+                                <label class="form-label">Белорусский язык (по)</label>
+                                {% render_field filter.form.bel_mark_lte class+="form-control" %}
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="mb-3">
+                                <label class="form-label">Математика (с)</label>
+                                {% render_field filter.form.math_mark_gte class+="form-control" %}
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="mb-3">
+                                <label class="form-label">Математика (по)</label>
+                                {% render_field filter.form.math_mark_lte class+="form-control" %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="shadow p-3 mb-3 bg-body rounded">
+                    <h4>Иные данные</h4>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="mb-3">
+                                <label class="form-label">В какой класс поступает (с)</label>
+                                {% render_field filter.form.class_he_goes_to_gte class+="form-control" %}
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="mb-3">
+                                <label class="form-label">В какой класс поступает (по)</label>
+                                {% render_field filter.form.class_he_goes_to_lte class+="form-control" %}
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="mb-3">
+                                <label class="form-label">Средний балл аттестата (с)</label>
+                                {% render_field filter.form.average_mark_gte class+="form-control" %}
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="mb-3">
+                                <label class="form-label">Средний балл аттестата (по)</label>
+                                {% render_field filter.form.average_mark_lte class+="form-control" %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label">Комплектующие органы (можно несколько)</label>
+                                {% render_field filter.form.complete_from class+="form-select my-select2" style="width: 100%" %}
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label">ВВК (можно несколько)</label>
+                                {% render_field filter.form.fit class+="form-select my-select2" style="width: 100%" %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="shadow p-3 mb-3 bg-body rounded">
+                    <h4>Документы</h4>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="mb-3">
+                                <label class="form-label">Заявление</label>
+                                {% render_field filter.form.there_is_application class+="form-control" %}
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="mb-3">
+                                <label class="form-label">Свидетельство о рождении</label>
+                                {% render_field filter.form.there_is_birth_certificate class+="form-control" %}
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="mb-3">
+                                <label class="form-label">Ведомость готовых оценок</label>
+                                {% render_field filter.form.there_is_mark_sheet class+="form-control" %}
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="mb-3">
+                                <label class="form-label">Характеристика</label>
+                                {% render_field filter.form.there_is_characteristic class+="form-control" %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="mb-3">
+                                <label class="form-label">Свидетельство об образовании</label>
+                                {% render_field filter.form.there_is_certificate_of_education class+="form-control" %}
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3">
+                            <div class="mb-3">
+                                <label class="form-label">Заключение об изучении кандидата</label>
+                                {% render_field filter.form.there_is_conclusion class+="form-control" %}
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="mb-3">
+                                <label class="form-label">Медицинская справка</label>
+                                {% render_field filter.form.there_is_medical_certificate class+="form-control" %}
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="mb-3">
+                                <label class="form-label">Выписка из медицинской справки</label>
+                                {% render_field filter.form.there_is_card_extract class+="form-control" %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="mb-3">
+                                <label class="form-label">Медицинская справка (психо)</label>
+                                {% render_field filter.form.there_is_psychological_information class+="form-control" %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-secondary">Поиск</button>
+                <a href="{% url 'applicant:applicant-list' %}" class="btn btn-secondary">Сбросить фильтр</a>
+            </form>
+        </div>
+    </div>
+
+    <div class="container-fluid mt-4">
+        <div class="d-flex justify-content-end align-items-center m-3">
+            <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Добавить новую запись
+            </button>
+        </div>
+        {% if applicant_list %}
+            <p class="fs-5">Найдено записей - <b>{{ filter.qs.count }}</b></p>
+            <nav aria-label="...">
+                <ul class="pagination pagination-sm">
+                    {% if applicant_list.has_previous %}
+                        <li class="page-item">
+                            <a class="btn btn-outline-dark"
+                               href="?{% url_replace request 'page' applicant_list.previous_page_number %}"><span
+                                    aria-hidden="true">&laquo;</span></a>
+                        </li>
+                    {% else %}
+                        <li class="page-item">
+                            <a class="btn btn-outline-dark disabled" href="#"><span
+                                    aria-hidden="true">&laquo;</span></a>
+                        </li>
+                    {% endif %}
+                    <li class="page-item d-flex align-items-center disabled">
+                        <b>&nbsp;&nbsp;Страница {{ applicant_list.number }} из {{ applicant_list.paginator.num_pages }}&nbsp;&nbsp;</b>
+                    </li>
+                    {% if applicant_list.has_next %}
+                        <li class="page-item">
+                            <a class="btn btn-outline-dark"
+                               href="?{% url_replace request 'page' applicant_list.next_page_number %}"><span
+                                    aria-hidden="true">&raquo;</span></a>
+                        </li>
+                    {% else %}
+                        <li class="page-item">
+                            <a class="btn btn-outline-dark disabled" href="#"><span
+                                    aria-hidden="true">&raquo;</span></a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+            <table class="table table-striped table-hover">
+                <thead>
+                <tr>
+                    <th scope="col" class="text-center">Регистрационный номер</th>
+                    <th scope="col" class="text-center">Фамилия</th>
+                    <th scope="col" class="text-center">Имя</th>
+                    <th scope="col" class="text-center">Отчество</th>
+                    <th scope="col" class="text-center">Дата рождения</th>
+                    <th scope="col" class="text-center">Домашний адрес</th>
+                    <th scope="col" class="text-center">Комплектующий орган</th>
+                    <th scope="col" class="text-center">Средний балл</th>
+                    <th scope="col" class="text-center">Русский язык</th>
+                    <th scope="col" class="text-center">Белорусский язык</th>
+                    <th scope="col" class="text-center">Математика</th>
+                    <th scope="col" class="text-center">В какой класс поступает</th>
+                    {#                    <th scope="col" class="text-center">Заявление</th>#}
+                    {#                    <th scope="col" class="text-center">Свидетельство о рождении или документ, удостоверяющий личность#}
+                    {#                    </th>#}
+                </tr>
+                </thead>
+                <tbody>
+                {% for applicant in applicant_list %}
+                    <tr>
+                        <td class="text-center">{{ applicant.registration_number }}</td>
+                        <td class="text-center">{{ applicant.last_name }}</td>
+                        <td class="text-center">{{ applicant.first_name }}</td>
+                        <td class="text-center">{{ applicant.patronymic|default_if_none:"" }}</td>
+                        <td class="text-center">{{ applicant.date_of_birth }}</td>
+                        <td class="text-center">{{ applicant.address }}</td>
+                        <td class="text-center">{{ applicant.complete_from }}</td>
+                        <td class="text-center">{{ applicant.average_mark }}</td>
+                        <td class="text-center">{{ applicant.rus_mark }}</td>
+                        <td class="text-center">{{ applicant.bel_mark }}</td>
+                        <td class="text-center">{{ applicant.math_mark }}</td>
+                        <td class="text-center">{{ applicant.class_he_goes_to }}</td>
+                        {#                        <td class="text-center">{{ applicant.there_is_application }}</td>#}
+                        {#                        <td class="text-center">{{ applicant.there_is_birth_certificate }}</td>#}
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <nav aria-label="...">
+                <ul class="pagination pagination-sm">
+                    {% if applicant_list.has_previous %}
+                        <li class="page-item">
+                            <a class="btn btn-outline-dark"
+                               href="?{% url_replace request 'page' applicant_list.previous_page_number %}"><span
+                                    aria-hidden="true">&laquo;</span></a>
+                        </li>
+                    {% else %}
+                        <li class="page-item">
+                            <a class="btn btn-outline-dark disabled" href="#"><span
+                                    aria-hidden="true">&laquo;</span></a>
+                        </li>
+                    {% endif %}
+                    <li class="page-item d-flex align-items-center disabled">
+                        <b>&nbsp;&nbsp;Страница {{ applicant_list.number }} из {{ applicant_list.paginator.num_pages }}&nbsp;&nbsp;</b>
+                    </li>
+                    {% if applicant_list.has_next %}
+                        <li class="page-item">
+                            <a class="btn btn-outline-dark"
+                               href="?{% url_replace request 'page' applicant_list.next_page_number %}"><span
+                                    aria-hidden="true">&raquo;</span></a>
+                        </li>
+                    {% else %}
+                        <li class="page-item">
+                            <a class="btn btn-outline-dark disabled" href="#"><span
+                                    aria-hidden="true">&raquo;</span></a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        {% else %}
+            <p class="fs-5">По Вашему запросу ничего не найдено. Измените параметры поиска</p>
+        {% endif %}
+
+
+    </div>
+
+
+
+{% endblock %}

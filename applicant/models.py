@@ -1,0 +1,130 @@
+from django.db import models
+
+
+class LanguageMath(models.Model):
+    language = models.CharField(max_length=100, verbose_name='Язык для математики')
+
+    def __str__(self):
+        return self.language
+
+    class Meta:
+        verbose_name = 'Язык'
+        verbose_name_plural = 'Языки'
+        ordering = ("language",)
+
+
+class Subject(models.Model):
+    subject = models.CharField(max_length=100, verbose_name='Предмет')
+
+    def __str__(self):
+        return self.subject
+
+    class Meta:
+        verbose_name = 'Предмет'
+        verbose_name_plural = 'Предметы'
+        ordering = ("subject",)
+
+
+class ForeignLanguage(models.Model):
+    foreign_language = models.CharField(max_length=100, verbose_name='Предмет')
+
+    def __str__(self):
+        return self.foreign_language
+
+    class Meta:
+        verbose_name = 'Иностранный язык для изучения'
+        verbose_name_plural = 'Иностранные языки для изучения'
+        ordering = ("foreign_language",)
+
+
+class CompleteFrom(models.Model):
+    complete_from = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.complete_from
+
+    class Meta:
+        verbose_name = 'Комплектующий орган'
+        verbose_name_plural = 'Комплектующие органы'
+        ordering = ("complete_from",)
+
+
+class Privilege(models.Model):
+    privilege = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.privilege
+
+    class Meta:
+        verbose_name = 'Льгота'
+        verbose_name_plural = 'Льготы'
+        ordering = ("privilege",)
+
+
+class VVK(models.Model):
+    vvk_result = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.vvk_result
+
+    class Meta:
+        verbose_name = 'ВВК результат'
+        verbose_name_plural = 'ВВК результаты'
+        ordering = ("vvk_result",)
+
+
+class ApplicantPersonalFile(models.Model):
+    registration_number = models.CharField(verbose_name="Регистрационный номер", max_length=100)
+    last_name = models.CharField(verbose_name="Фамилия", max_length=200)
+    first_name = models.CharField(verbose_name="Имя", max_length=200)
+    patronymic = models.CharField(verbose_name="Отчество", max_length=200, blank=True, null=True)
+    date_of_birth = models.DateField(verbose_name="Дата рождения")
+    address = models.TextField(verbose_name="Домашний адрес (Область, Город, Улица, Номер дома)")
+    contact_number = models.TextField(verbose_name="Контактные данные законных представителей")
+    complete_from = models.ForeignKey(CompleteFrom, verbose_name="Комплектующий орган", on_delete=models.CASCADE)
+    average_mark = models.FloatField(verbose_name="Средний бал свидетельства об общем базовом образовании")
+    class_he_goes_to = models.IntegerField(verbose_name="В какой класс поступает")
+
+    there_is_application = models.BooleanField(verbose_name="Заявление (да/нет)", default=False)
+    there_is_birth_certificate = models.BooleanField(verbose_name="Свидетельство о рождении (да/нет)", default=False)
+    there_is_mark_sheet = models.BooleanField(verbose_name="Ведомость годовых отметок (да/нет)", default=False)
+    there_is_characteristic = models.BooleanField(verbose_name="Характеристика (да/нет)", default=False)
+    there_is_certificate_of_education = models.BooleanField(
+        verbose_name="Свидетельство об общем базовом образовании (да/нет)",
+        default=False)
+
+    privilege = models.ForeignKey(Privilege, verbose_name="Документы, подтверждающие право на льготы",
+                                  on_delete=models.SET_NULL, blank=True, null=True)
+    there_is_conclusion = models.BooleanField(verbose_name="Заключение об изучении кандидата (да/нет)")
+    there_is_medical_certificate = models.BooleanField(verbose_name="Медицинская справка (да/нет)", default=False)
+    there_is_card_extract = models.BooleanField(
+        verbose_name="Выписка из медицинской карты за последние 5 лет  (да/нет)", default=False)
+    there_is_psychological_information = models.BooleanField(
+        verbose_name="Медицинская справка о состоянии здоровья, подтверждающая отсутствие учета", default=False)
+    language_math = models.ForeignKey(LanguageMath, verbose_name="Язык задания по математике",
+                                      on_delete=models.SET_NULL, related_name="language_math", blank=True, null=True)
+    language_for_dictation = models.ForeignKey(Subject, verbose_name="Выбор учебного предмета для написания диктанта",
+                                               on_delete=models.SET_NULL,
+                                               blank=True, null=True)
+    rus_mark = models.IntegerField(verbose_name="Отметка по Русский язык", blank=True, null=True)
+    bel_mark = models.IntegerField(verbose_name="Отметка по Белорусский язык", blank=True, null=True)
+    math_mark = models.IntegerField(verbose_name="Отметка по Математика", blank=True, null=True)
+    sum_mark = models.IntegerField(verbose_name="Сумма баллов по результатам вступительных испытаний", blank=True,
+                                   null=True, default=0)
+    language_for_study = models.ForeignKey(ForeignLanguage, verbose_name="Иностранный язык в случае поступления",
+                                           on_delete=models.SET_NULL,
+                                           blank=True, null=True)
+    fit = models.ForeignKey(VVK, verbose_name="Прохождение ВВК",
+                            on_delete=models.SET_NULL,
+                            blank=True, null=True)
+    extra_data = models.TextField(verbose_name="Примечание", blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата и время создания записи")
+    updated_at = models.DateTimeField(auto_now=True, verbose_name="Дата и время последнего редактирования записи")
+
+    def __str__(self):
+        return self.registration_number + " " + self.last_name
+
+    class Meta:
+        verbose_name = 'Личное дело'
+        verbose_name_plural = 'Личные дела'
+        ordering = ("last_name",)
