@@ -401,7 +401,9 @@
                 {% for applicant in applicant_list %}
                     <tr ondblclick="window.location.href='{% url 'applicant:applicant-update-form' applicant.id %}'">
                         <td class="text-center">{{ applicant.id|default_if_none:"" }}</td>
-                        <td class="text-center">{{ applicant.created_at|default_if_none:"" }}</td>
+                        <td class="text-center">{{ applicant.created_at|date:"SHORT_DATE_FORMAT" }} <br>
+                            {{ applicant.created_at|time:"H:i" }}
+                        </td>
                         <td class="text-center">{{ applicant.last_name|default_if_none:"" }}</td>
                         <td class="text-center">{{ applicant.first_name|default_if_none:"" }}</td>
                         <td class="text-center">{{ applicant.patronymic|default_if_none:"" }}</td>
