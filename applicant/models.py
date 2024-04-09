@@ -12,7 +12,7 @@ class AddressRegion(models.Model):
     region = models.CharField(max_length=255, verbose_name="Область")
 
     def __str__(self):
-        return self.region
+        return self.region + ' область'
 
     class Meta:
         verbose_name = 'Адрес (область)'
@@ -25,7 +25,7 @@ class AddressDistrict(models.Model):
     region = models.ForeignKey(AddressRegion, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.district
+        return self.district + ' район ' + self.region.region + ' область'
 
     class Meta:
         verbose_name = 'Адрес (район)'
