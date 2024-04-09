@@ -1,18 +1,24 @@
 import django_filters
 from django import forms
 
-from .models import LanguageMath, ForeignLanguage, Subject, Privilege, CompleteFrom, ApplicantPersonalFile, VVK
+from .models import LanguageMath, ForeignLanguage, Subject, Privilege, CompleteFrom, ApplicantPersonalFile, VVK, \
+    AddressRegion, AddressDistrict, AddressCity
 
 myDateInput = forms.DateInput(format=('%Y-%m-%d'), attrs={'type': 'date'})
 
 
 class ApplicantFilter(django_filters.FilterSet):
-    # registration_number = django_filters.CharFilter(field_name='registration_number', lookup_expr='exact')
     last_name = django_filters.CharFilter(field_name='last_name', lookup_expr='icontains')
     date_of_birth_gte = django_filters.DateFilter(field_name='date_of_birth', lookup_expr='gte', widget=myDateInput)
     date_of_birth_lte = django_filters.DateFilter(field_name='date_of_birth', lookup_expr='lte', widget=myDateInput)
     complete_from = django_filters.ModelMultipleChoiceFilter(field_name='complete_from',
                                                              queryset=CompleteFrom.objects.all())
+    address_region = django_filters.ModelMultipleChoiceFilter(field_name='address_city__district__region',
+                                                              queryset=AddressRegion.objects.all())
+    address_district = django_filters.ModelMultipleChoiceFilter(field_name='address_city__district',
+                                                                queryset=AddressDistrict.objects.all())
+    address_city = django_filters.ModelMultipleChoiceFilter(field_name='address_city',
+                                                            queryset=AddressCity.objects.all())
     average_mark_gte = django_filters.NumberFilter(field_name='average_mark', lookup_expr='gte')
     average_mark_lte = django_filters.NumberFilter(field_name='average_mark', lookup_expr='lte')
 

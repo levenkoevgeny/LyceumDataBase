@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic.edit import DeleteView
 
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse
 from django.shortcuts import get_object_or_404
 
 from .models import ApplicantPersonalFile, CompleteFrom, LanguageMath, ForeignLanguage, Privilege, Subject, VVK
@@ -73,7 +73,6 @@ class ApplicantDelete(DeleteView):
 
     def get_success_url(self):
         return self.request.session.get('back_path', '/')
-    # success_url = reverse_lazy('applicant:applicant-list')
 
 
 @login_required
@@ -114,7 +113,6 @@ def init_db(request):
             random_foreign_language = ForeignLanguage.objects.get(pk=random.randint(1, 2))
             random_vvk = VVK.objects.get(pk=random.randint(1, 2))
             ApplicantPersonalFile.objects.create(
-                registration_number=fake.passport_number(),
                 last_name=fake.last_name(),
                 first_name=fake.first_name(),
                 date_of_birth=fake.date_of_birth(minimum_age=14, maximum_age=16),

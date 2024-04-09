@@ -8,6 +8,44 @@ CLASS_IN_SCHOOL_CHOICES = {
 }
 
 
+class AddressRegion(models.Model):
+    region = models.CharField(max_length=255, verbose_name="Область")
+
+    def __str__(self):
+        return self.region
+
+    class Meta:
+        verbose_name = 'Адрес (область)'
+        verbose_name_plural = 'Адрес (области)'
+        ordering = ("region",)
+
+
+class AddressDistrict(models.Model):
+    district = models.CharField(max_length=255, verbose_name="Район")
+    region = models.ForeignKey(AddressRegion, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.district
+
+    class Meta:
+        verbose_name = 'Адрес (район)'
+        verbose_name_plural = 'Адрес (районы)'
+        ordering = ("district",)
+
+
+class AddressCity(models.Model):
+    city = models.CharField(max_length=255, verbose_name="Город")
+    district = models.ForeignKey(AddressDistrict, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.city + ' ' + self.district.district + ' район ' + self.district.region.region + ' область'
+
+    class Meta:
+        verbose_name = 'Адрес (город)'
+        verbose_name_plural = 'Адрес (город)'
+        ordering = ("city",)
+
+
 class LanguageMath(models.Model):
     language = models.CharField(max_length=100, verbose_name='Язык для математики')
 
@@ -81,17 +119,18 @@ class VVK(models.Model):
 
 
 class ApplicantPersonalFile(models.Model):
-    # registration_number = models.CharField(verbose_name="Регистрационный номер", max_length=100)
     last_name = models.CharField(verbose_name="Фамилия", max_length=200)
     first_name = models.CharField(verbose_name="Имя", max_length=200)
     patronymic = models.CharField(verbose_name="Отчество", max_length=200, blank=True, null=True)
     date_of_birth = models.DateField(verbose_name="Дата рождения")
-    address = models.TextField(verbose_name="Домашний адрес (Область, Город, Улица, Номер дома)")
+    # address_region = models.ForeignKey(AddressRegion, verbose_name="Адрес (область)", on_delete=models.SET_NULL, blank=True, null=True)
+    # address_district = models.ForeignKey(AddressDistrict, verbose_name="Адрес (район)", on_delete=models.SET_NULL, blank=True, null=True)
+    address_city = models.ForeignKey(AddressCity, verbose_name="Адрес (город)", on_delete=models.SET_NULL, blank=True, null=True)
+    address = models.TextField(verbose_name="Домашний адрес (Улица, Номер дома, Номер квартиры)", blank=True, null=True)
     contact_number = models.TextField(verbose_name="Контактные данные законных представителей")
     complete_from = models.ForeignKey(CompleteFrom, verbose_name="Комплектующий орган", on_delete=models.CASCADE)
     average_mark = models.FloatField(verbose_name="Средний бал свидетельства об общем базовом образовании")
     class_he_goes_to = models.IntegerField(verbose_name="В какой класс поступает", choices=CLASS_IN_SCHOOL_CHOICES)
-
     there_is_application = models.BooleanField(verbose_name="Заявление (да/нет)", default=False)
     there_is_birth_certificate = models.BooleanField(verbose_name="Свидетельство о рождении (да/нет)", default=False)
     there_is_mark_sheet = models.BooleanField(verbose_name="Ведомость годовых отметок (да/нет)", default=False)
@@ -117,7 +156,7 @@ class ApplicantPersonalFile(models.Model):
     bel_mark = models.IntegerField(verbose_name="Отметка по Белорусский язык", blank=True, null=True)
     math_mark = models.IntegerField(verbose_name="Отметка по Математика", blank=True, null=True)
     sum_mark = models.IntegerField(verbose_name="Сумма баллов по результатам вступительных испытаний", blank=True,
-                                   null=True, default=0)
+                                   null=True)
     language_for_study = models.ForeignKey(ForeignLanguage, verbose_name="Иностранный язык в случае поступления",
                                            on_delete=models.SET_NULL,
                                            blank=True, null=True)
