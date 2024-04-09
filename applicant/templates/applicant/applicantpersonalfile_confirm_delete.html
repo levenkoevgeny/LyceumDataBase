@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Удаление{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <br>
+        <form method="post">{% csrf_token %}
+            <p>Вы действительно хотите удалить "{{ object }}"?</p>
+            <button type="submit" class="btn btn-danger" value="Confirm">Удалить!</button>
+            <a href="{% url 'applicant:applicant-list' %}" class="btn btn-secondary">Отмена!</a>
+        </form>
+    </div>
+{% endblock %}

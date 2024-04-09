@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+{% block content %}
+    <div class="container">
+        {% if applicant_form.non_field_errors %}
+            <div class="alert alert-danger mt-3" role="alert">
+                {% for error in applicant_form.non_field_errors %}
+                    <b>{{ field.label }} {{ error }}</b><br>
+                {% endfor %}
+                {% for field in applicant_form %}
+                    {% if field.errors %}
+                        {% for error in field.errors %}
+                            <b>{{ field.label }} {{ error }}</b><br>
+                        {% endfor %}
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endif %}
+        <div><h3 class="my-2">
+            <a onclick="window.history.back()" style="cursor: pointer" class="link-secondary">Вернуться к списку</a></h3>
+        </div>
+
+        <form action="{% url 'applicant:applicant-update-form' applicant_id=obj.id %}" method="post"
+              class="needs-validation"
+              novalidate>{% csrf_token %}
+            {% include 'applicant/common_parts/applicant_form.html' %}
+            <div class="mb-3">
+                <button type="button" class="btn btn-secondary" onclick="window.history.back()">Отмена</button>
+                <button type="submit" class="btn btn-primary">Сохранить</button>
+            </div>
+        </form>
+    </div>
+
+{% endblock %}
+
+{% block own_js %}
+    <script>
+        (function () {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.querySelectorAll('.needs-validation')
+
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+    </script>
+{% endblock %}

@@ -3,7 +3,11 @@ import random
 from django.shortcuts import render
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.views.generic.edit import DeleteView
+
+from django.urls import reverse, reverse_lazy
+from django.shortcuts import get_object_or_404
 
 from .models import ApplicantPersonalFile, CompleteFrom, LanguageMath, ForeignLanguage, Privilege, Subject, VVK
 from .filters import ApplicantFilter
@@ -13,13 +17,63 @@ from faker import Faker
 
 @login_required
 def applicant_list(request):
-    f = ApplicantFilter(request.GET, queryset=ApplicantPersonalFile.objects.all())
-    paginator = Paginator(f.qs, 30)
+    request.session['back_path'] = '/applicants/?' + request.META.get('QUERY_STRING')
+    qs = ApplicantPersonalFile.objects.all()
+    if 'o' in request.GET:
+        order_query = request.GET['o'].split('.')
+        qs = qs.order_by(*order_query)
+    f = ApplicantFilter(request.GET, queryset=qs)
+    paginator = Paginator(f.qs, 50)
     page = request.GET.get('page')
     applicant_list = paginator.get_page(page)
     applicant_form = ApplicantForm()
     return render(request, 'applicant/applicant_list.html',
                   {'applicant_list': applicant_list, 'applicant_form': applicant_form, 'filter': f})
+
+
+def add_applicant(request):
+    if request.method == 'POST':
+        form = ApplicantForm(request.POST)
+        if form.is_valid():
+            form.save()
+            if 'from_modal' in request.POST:
+                return HttpResponseRedirect(reverse('applicant:applicant-list'))
+            else:
+                return HttpResponseRedirect(reverse('applicant:applicant-add-form'))
+        else:
+            return render(request, 'applicant/add_form.html', {'applicant_form': form})
+    if request.method == 'GET':
+        applicant_form = ApplicantForm()
+        return render(request, 'applicant/add_form.html', {'applicant_form': applicant_form})
+    else:
+        pass
+
+
+def update_applicant(request, applicant_id):
+    if request.method == 'POST':
+        obj = get_object_or_404(ApplicantPersonalFile, pk=applicant_id)
+        form = ApplicantForm(request.POST, instance=obj)
+        if form.is_valid():
+            form.save()
+            back_path = request.session.get('back_path', '/')
+            return HttpResponseRedirect(back_path)
+        else:
+            return render(request, 'applicant/update_form.html', {'applicant_form': form,
+                                                                  'obj': obj,
+                                                                  })
+    else:
+        obj = get_object_or_404(ApplicantPersonalFile, pk=applicant_id)
+        form = ApplicantForm(instance=obj)
+        return render(request, 'applicant/update_form.html', {'applicant_form': form,
+                                                              'obj': obj})
+
+
+class ApplicantDelete(DeleteView):
+    model = ApplicantPersonalFile
+
+    def get_success_url(self):
+        return self.request.session.get('back_path', '/')
+    # success_url = reverse_lazy('applicant:applicant-list')
 
 
 @login_required

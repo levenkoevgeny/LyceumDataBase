@@ -7,7 +7,7 @@ myDateInput = forms.DateInput(format=('%Y-%m-%d'), attrs={'type': 'date'})
 
 
 class ApplicantFilter(django_filters.FilterSet):
-    registration_number = django_filters.CharFilter(field_name='registration_number', lookup_expr='exact')
+    # registration_number = django_filters.CharFilter(field_name='registration_number', lookup_expr='exact')
     last_name = django_filters.CharFilter(field_name='last_name', lookup_expr='icontains')
     date_of_birth_gte = django_filters.DateFilter(field_name='date_of_birth', lookup_expr='gte', widget=myDateInput)
     date_of_birth_lte = django_filters.DateFilter(field_name='date_of_birth', lookup_expr='lte', widget=myDateInput)
