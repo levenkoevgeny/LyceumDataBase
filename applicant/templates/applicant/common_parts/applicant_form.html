@@ -52,7 +52,7 @@
             </div>
         </div>
 
-         <div class="row">
+        <div class="row">
             <div class="col-lg-12">
                 <div class="mb-3">
                     <label class="form-label">Контактные данные законных представителей</label><br>
@@ -69,7 +69,7 @@
             <div class="col-lg-4">
                 <div class="mb-3">
                     <label class="form-label">Адрес (город)</label><br>
-                    {% render_field applicant_form.address_city class+="form-select" %}
+                    {% render_field applicant_form.address_city class+="form-select my-select2" %}
                 </div>
             </div>
             <div class="col-lg-8">
@@ -83,17 +83,7 @@
     </div>
     <div class="shadow p-3 mb-3 bg-body rounded">
         <div class="row">
-            <div class="col-lg-6">
-                <div class="mb-3">
-                    <label class="form-label">Средний балл свидетельства об общем базовом
-                        образовании</label><br>
-                    {% render_field applicant_form.average_mark class+="form-control" min=0 max=10 %}
-                    <div class="invalid-feedback">
-                        Поле, обязательно для заполнения!
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6">
+            <div class="col-lg-4">
                 <div class="mb-3">
                     <label class="form-label">В какой класс поступает</label><br>
                     {% render_field applicant_form.class_he_goes_to class+="form-control" min=1 max=12 %}
@@ -102,6 +92,26 @@
                     </div>
                 </div>
             </div>
+
+            <div class="col-lg-4">
+                <div class="mb-3">
+                    <label class="form-label">Ср. балл свидетельства об ОБО</label><br>
+                    {% render_field applicant_form.average_mark class+="form-control" min=0 max=10 disabled=true %}
+                    <div class="invalid-feedback">
+                        Поле, обязательно для заполнения!
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="mb-3">
+                    <label class="form-label">Ср. балл ведомости годовых отметок</label><br>
+                    {% render_field applicant_form.average_mark_year class+="form-control" min=0 max=10 disabled=true %}
+                    <div class="invalid-feedback">
+                        Поле, обязательно для заполнения!
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
     <div class="shadow p-3 mb-3 bg-body rounded">
@@ -127,12 +137,24 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row" id="div_there_is_mark_sheet" style="display: none;">
             <div class="col-lg-12">
                 <div class="form-check">
                     {% render_field applicant_form.there_is_mark_sheet class+="form-check-input" %}
                     <label class="form-check-label">
                         Ведомость годовых отметок (да/нет)
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" id="div_there_is_certificate_of_education" style="display: none;">
+            <div class="col-lg-12">
+                <div class="form-check">
+                    {% render_field applicant_form.there_is_certificate_of_education class+="form-check-input" %}
+                    <label class="form-check-label">
+                        Свидетельство об образовании
+                        (да/нет)
                     </label>
                 </div>
             </div>
@@ -144,18 +166,6 @@
                     {% render_field applicant_form.there_is_characteristic class+="form-check-input" %}
                     <label class="form-check-label">
                         Характеристика
-                    </label>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="form-check">
-                    {% render_field applicant_form.there_is_certificate_of_education class+="form-check-input" %}
-                    <label class="form-check-label">
-                        Свидетельство об образовании
-                        (да/нет)
                     </label>
                 </div>
             </div>
@@ -206,30 +216,7 @@
             </div>
         </div>
     </div>
-    <div class="shadow p-3 mb-3 bg-body rounded">
-        <div class="row">
-            <div class="col-lg-4">
-                <div class="mb-3">
-                    <label class="form-label">Язык задания по предмету "Математика"</label><br>
-                    {% render_field applicant_form.language_math class+="form-select" %}
-                </div>
-            </div>
 
-            <div class="col-lg-4">
-                <div class="mb-3">
-                    <label class="form-label">Выбор учебного предмета для написания
-                        диктанта</label><br>
-                    {% render_field applicant_form.language_for_dictation class+="form-select" %}
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="mb-3">
-                    <label class="form-label">Иностранный язык в случае поступления</label><br>
-                    {% render_field applicant_form.language_for_study class+="form-select" %}
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="shadow p-3 mb-3 bg-body rounded">
         <div class="row">
             <div class="col-lg-6">
@@ -255,8 +242,7 @@
                     <label class="form-label">
                         Диагноз по ВВК (если не годен)
                     </label>
-                    {% render_field applicant_form.fit_diagnosis class+="form-control" rows=2 %}
-
+                    {% render_field applicant_form.fit_diagnosis class+="form-control" rows=2 disabled=true %}
                 </div>
             </div>
         </div>
@@ -266,10 +252,31 @@
         <div class="row">
             <div class="col-lg-4">
                 <div class="mb-3">
+                    <label class="form-label">Язык задания по предмету "Математика"</label><br>
+                    {% render_field applicant_form.language_math class+="form-select" %}
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="mb-3">
+                    <label class="form-label">Выбор уч. пр. для диктанта</label><br>
+                    {% render_field applicant_form.language_for_dictation class+="form-select" %}
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="mb-3">
+                    <label class="form-label">Иностранный язык в случае поступления</label><br>
+                    {% render_field applicant_form.language_for_study class+="form-select" %}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="mb-3">
                     <label class="form-label">
                         Русский язык - отметка
                     </label>
-                    {% render_field applicant_form.rus_mark class+="form-control" min=0 max=10 %}
+                    {% render_field applicant_form.rus_mark class+="form-control" min=0 max=10 disabled=true %}
                 </div>
             </div>
             <div class="col-lg-4">
@@ -277,7 +284,7 @@
                     <label class="form-label">
                         Белорусский язык - отметка
                     </label>
-                    {% render_field applicant_form.bel_mark class+="form-control" min=0 max=10 %}
+                    {% render_field applicant_form.bel_mark class+="form-control" min=0 max=10 disabled=true %}
                 </div>
             </div>
             <div class="col-lg-4">

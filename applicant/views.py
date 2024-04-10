@@ -1,18 +1,20 @@
 import random
 
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic.edit import DeleteView
 
 from django.urls import reverse
-from django.shortcuts import get_object_or_404
 
-from .models import ApplicantPersonalFile, CompleteFrom, LanguageMath, ForeignLanguage, Privilege, Subject, VVK
+from .models import ApplicantPersonalFile, CompleteFrom, LanguageMath, ForeignLanguage, Privilege, Subject, VVK, \
+    AddressRegion, AddressDistrict, AddressCity
 from .filters import ApplicantFilter
 from .forms import ApplicantForm
 from faker import Faker
+import csv
 
 
 @login_required
@@ -31,6 +33,7 @@ def applicant_list(request):
                   {'applicant_list': applicant_list, 'applicant_form': applicant_form, 'filter': f})
 
 
+@login_required
 def add_applicant(request):
     if request.method == 'POST':
         form = ApplicantForm(request.POST)
@@ -49,6 +52,7 @@ def add_applicant(request):
         pass
 
 
+@login_required
 def update_applicant(request, applicant_id):
     if request.method == 'POST':
         obj = get_object_or_404(ApplicantPersonalFile, pk=applicant_id)
@@ -68,7 +72,7 @@ def update_applicant(request, applicant_id):
                                                               'obj': obj})
 
 
-class ApplicantDelete(DeleteView):
+class ApplicantDelete(LoginRequiredMixin, DeleteView):
     model = ApplicantPersonalFile
 
     def get_success_url(self):
@@ -80,9 +84,25 @@ def init_db(request):
     if request.method == 'POST':
         pass
     else:
+        import csv
+        AddressRegion.objects.all().delete()
+        AddressDistrict.objects.all().delete()
+        AddressCity.objects.all().delete()
+
+        with open('by-list.csv') as csv_file:
+            csv_reader = csv.reader(csv_file, delimiter=',')
+            for row in csv_reader:
+                region, created = AddressRegion.objects.get_or_create(region=row[0])
+                district, created = AddressDistrict.objects.get_or_create(district=row[1], region=region)
+                AddressCity.objects.get_or_create(city=row[2], district=district)
+
         CompleteFrom.objects.all().delete()
-        CompleteFrom.objects.create(pk=1, complete_from="Комплектующий орган 1")
-        CompleteFrom.objects.create(pk=2, complete_from="Комплектующий орган 2")
+
+        with open('complete_from.csv') as csv_file:
+            csv_reader = csv.reader(csv_file, delimiter=',')
+            for row in csv_reader:
+                CompleteFrom.objects.create(pk=row[0], complete_from=row[1])
+
 
         LanguageMath.objects.all().delete()
         LanguageMath.objects.create(pk=1, language="русский")
@@ -101,8 +121,6 @@ def init_db(request):
         VVK.objects.all().delete()
         VVK.objects.create(pk=1, vvk_result="годен")
         VVK.objects.create(pk=2, vvk_result="не годен")
-
-        ApplicantPersonalFile.objects.all().delete()
 
         fake = Faker('ru_RU')
         for i in range(10000):

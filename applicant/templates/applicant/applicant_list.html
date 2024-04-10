@@ -5,499 +5,278 @@
 {% block title %}<title>Личные дела</title>{% endblock %}
 {% block content %}
 
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl">
-            <form action="{% url 'applicant:applicant-add-form' %}" method="post" class="needs-validation"
-                  novalidate>{% csrf_token %}
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Добавление новой записи</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        {% include 'applicant/common_parts/applicant_form.html' %}
-                        <input type="hidden" name="from_modal" value="1">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
-                        <button type="submit" class="btn btn-primary">Создать запись</button>
-                    </div>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <form action="{% url 'applicant:applicant-add-form' %}" method="post" class="needs-validation" novalidate>{%
+            csrf_token %}
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Добавление новой записи</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-            </form>
-        </div>
-    </div>
-
-    <div class="container">
-        <div class="shadow-lg p-3 my-4 bg-body rounded">
-            <h3 class="text-decoration-underline">
-                <a class="btn btn-link" data-bs-toggle="collapse"
-                   href="#filterCollapse" role="button"
-                   aria-expanded="false" aria-controls="collapseExample">
-                    Форма поиска
-                </a>
-            </h3>
-
-            <div class="collapse" id="filterCollapse">
-                <div class="card card-body">
-
-                    <form action="{% url 'applicant:applicant-list' %}">
-                        {#Персональные данные #}
-                        <div class="shadow p-3 mb-3 bg-body rounded">
-                            <h4>Персональные данные</h4>
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Фамилия (содержит)</label>
-                                        {% render_field filter.form.last_name class+="form-control" %}
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-3">
-                                    <div class="mb-3">
-                                        <label class="form-label">Дата рождения (с)</label>
-                                        {% render_field filter.form.date_of_birth_gte class+="form-control" %}
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="mb-3">
-                                        <label class="form-label">Дата рождения (по)</label>
-                                        {% render_field filter.form.date_of_birth_lte class+="form-control" %}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-4">
-                                    <div class="mb-3">
-                                        <label class="form-label">Адрес (область)</label>
-                                        {% render_field filter.form.address_region class+="form-select my-select2" style="width: 100%" %}
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-4">
-                                    <div class="mb-3">
-                                        <label class="form-label">Адрес (район)</label>
-                                        {% render_field filter.form.address_district class+="form-select my-select2" style="width: 100%" %}
-                                    </div>
-                                </div>
-                                <div class="col-lg-4">
-                                    <div class="mb-3">
-                                        <label class="form-label">Адрес (город)</label>
-                                        {% render_field filter.form.address_city class+="form-select my-select2" style="width: 100%" %}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {#Баллы#}
-                        <div class="shadow p-3 mb-3 bg-body rounded">
-                            <h4>Вступительные испытания</h4>
-                            <div class="row">
-                                <div class="col-lg-2">
-                                    <div class="mb-3">
-                                        <label class="form-label">Русский язык (с)</label>
-                                        {% render_field filter.form.rus_mark_gte class+="form-control" %}
-                                    </div>
-                                </div>
-                                <div class="col-lg-2">
-                                    <div class="mb-3">
-                                        <label class="form-label">Русский язык (по)</label>
-                                        {% render_field filter.form.rus_mark_lte class+="form-control" %}
-                                    </div>
-                                </div>
-                                <div class="col-lg-2">
-                                    <div class="mb-3">
-                                        <label class="form-label">Белорусский язык (с)</label>
-                                        {% render_field filter.form.bel_mark_gte class+="form-control" %}
-                                    </div>
-                                </div>
-                                <div class="col-lg-2">
-                                    <div class="mb-3">
-                                        <label class="form-label">Белорусский язык (по)</label>
-                                        {% render_field filter.form.bel_mark_lte class+="form-control" %}
-                                    </div>
-                                </div>
-                                <div class="col-lg-2">
-                                    <div class="mb-3">
-                                        <label class="form-label">Математика (с)</label>
-                                        {% render_field filter.form.math_mark_gte class+="form-control" %}
-                                    </div>
-                                </div>
-                                <div class="col-lg-2">
-                                    <div class="mb-3">
-                                        <label class="form-label">Математика (по)</label>
-                                        {% render_field filter.form.math_mark_lte class+="form-control" %}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="shadow p-3 mb-3 bg-body rounded">
-                            <h4>Иные данные</h4>
-                            <div class="row">
-                                <div class="col-lg-3">
-                                    <div class="mb-3">
-                                        <label class="form-label">В какой класс поступает (с)</label>
-                                        {% render_field filter.form.class_he_goes_to_gte class+="form-control" %}
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="mb-3">
-                                        <label class="form-label">В какой класс поступает (по)</label>
-                                        {% render_field filter.form.class_he_goes_to_lte class+="form-control" %}
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="mb-3">
-                                        <label class="form-label">Средний балл аттестата (с)</label>
-                                        {% render_field filter.form.average_mark_gte class+="form-control" %}
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="mb-3">
-                                        <label class="form-label">Средний балл аттестата (по)</label>
-                                        {% render_field filter.form.average_mark_lte class+="form-control" %}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Комплектующие органы (можно несколько)</label>
-                                        {% render_field filter.form.complete_from class+="form-select my-select2" style="width: 100%" %}
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">ВВК (можно несколько)</label>
-                                        {% render_field filter.form.fit class+="form-select my-select2" style="width: 100%" %}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="shadow p-3 mb-3 bg-body rounded">
-                            <h4>Документы</h4>
-                            <div class="row">
-                                <div class="col-lg-3">
-                                    <div class="mb-3">
-                                        <label class="form-label">Заявление</label>
-                                        {% render_field filter.form.there_is_application class+="form-control" %}
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="mb-3">
-                                        <label class="form-label">Свидетельство о рождении</label>
-                                        {% render_field filter.form.there_is_birth_certificate class+="form-control" %}
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="mb-3">
-                                        <label class="form-label">Ведомость готовых оценок</label>
-                                        {% render_field filter.form.there_is_mark_sheet class+="form-control" %}
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="mb-3">
-                                        <label class="form-label">Характеристика</label>
-                                        {% render_field filter.form.there_is_characteristic class+="form-control" %}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-3">
-                                    <div class="mb-3">
-                                        <label class="form-label">Свидетельство об образовании</label>
-                                        {% render_field filter.form.there_is_certificate_of_education class+="form-control" %}
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-3">
-                                    <div class="mb-3">
-                                        <label class="form-label">Заключение об изучении кандидата</label>
-                                        {% render_field filter.form.there_is_conclusion class+="form-control" %}
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="mb-3">
-                                        <label class="form-label">Медицинская справка</label>
-                                        {% render_field filter.form.there_is_medical_certificate class+="form-control" %}
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="mb-3">
-                                        <label class="form-label">Выписка из медицинской справки</label>
-                                        {% render_field filter.form.there_is_card_extract class+="form-control" %}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-3">
-                                    <div class="mb-3">
-                                        <label class="form-label">Медицинская справка (психо)</label>
-                                        {% render_field filter.form.there_is_psychological_information class+="form-control" %}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <button type="submit" class="btn btn-secondary">Поиск</button>
-                        <a href="{% url 'applicant:applicant-list' %}" class="btn btn-secondary">Сбросить фильтр</a>
-                    </form>
-
+                <div class="modal-body">
+                    {% include 'applicant/common_parts/applicant_form.html' %}
+                    <input type="hidden" name="from_modal" value="1">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                    <button type="submit" class="btn btn-primary">Создать запись</button>
                 </div>
             </div>
+        </form>
+    </div>
+</div>
 
+<div class="container">
+    <div class="shadow-lg p-3 my-4 bg-body rounded">
+        <h3 class="text-decoration-underline">
+            <a class="btn btn-link" data-bs-toggle="collapse" href="#filterCollapse" role="button" aria-expanded="false"
+                aria-controls="collapseExample">
+                Форма поиска
+            </a>
+        </h3>
+        <div class="collapse" id="filterCollapse">
+            {% include 'applicant/list_filter.html' %}
         </div>
     </div>
+</div>
 
-    <div class="container-fluid mt-5">
-        {#        <div class="d-flex justify-content-end align-items-center m-3">#}
-        {#            <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">#}
-        {#                Добавить новую запись#}
-        {#            </button>#}
-        {#        </div>#}
-        {% if applicant_list %}
-            <p class="fs-5">Найдено записей - <b>{{ filter.qs.count }}</b></p>
-            <nav aria-label="...">
-                <ul class="pagination pagination-sm">
-                    {% if applicant_list.has_previous %}
-                        <li class="page-item">
-                            <a class="btn btn-outline-dark"
-                               href="?{% url_replace request 'page' applicant_list.previous_page_number %}"><span
-                                    aria-hidden="true">&laquo;</span></a>
-                        </li>
-                    {% else %}
-                        <li class="page-item">
-                            <a class="btn btn-outline-dark disabled" href="#"><span
-                                    aria-hidden="true">&laquo;</span></a>
-                        </li>
-                    {% endif %}
-                    <li class="page-item d-flex align-items-center disabled">
-                        <b>&nbsp;&nbsp;Страница {{ applicant_list.number }} из {{ applicant_list.paginator.num_pages }}&nbsp;&nbsp;</b>
-                    </li>
-                    {% if applicant_list.has_next %}
-                        <li class="page-item">
-                            <a class="btn btn-outline-dark"
-                               href="?{% url_replace request 'page' applicant_list.next_page_number %}"><span
-                                    aria-hidden="true">&raquo;</span></a>
-                        </li>
-                    {% else %}
-                        <li class="page-item">
-                            <a class="btn btn-outline-dark disabled" href="#"><span
-                                    aria-hidden="true">&raquo;</span></a>
-                        </li>
-                    {% endif %}
-                </ul>
-            </nav>
-            <table class="table table-striped table-hover">
-                <thead>
-                <tr>
-                    <th scope="col" class="text-center">Рег. номер</th>
-                    <th scope="col" class="text-center">Дата регистрации
-                         <a href="?{% url_replace request 'o' 'created_at' %}">
-                            <i class="fas fa-sort-up"></i>
-                        </a>
-                        <a href="?{% url_replace request 'o' '-created_at' %}">
-                            <i class="fas fa-sort-down"></i>
-                        </a>
-                    </th>
-                    <th scope="col" class="text-center">
-                        <div class="d-flex align-items-center">Фамилия
-                            <div class="d-flex flex-column ms-3">
-                                <a href="?{% url_replace request 'o' 'last_name' %}">
-                                    <i class="fas fa-sort-up"></i>
+<div class="container-fluid mt-5">
+
+    {% if applicant_list %}
+    <p class="fs-5">Найдено записей - <b>{{ filter.qs.count }}</b></p>
+
+    {% include 'applicant/common_parts/paginator.html' %}
+
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th scope="col" class="text-center align-content-center">
+                    <div>Рег. номер</div></th>
+                <th scope="col" class="text-center align-content-center">
+                    <div class="d-flex align-items-center">
+                        <div class="me-1">Дата регистрации</div>
+                        
+                            <div  class="d-flex flex-column ">
+                                <a style="font-size: 0px;" href="?{% url_replace request 'o' 'created_at' %}"
+                                    >
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-up-fill" viewBox="0 0 16 16">
+                                        <path d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
+                                      </svg>
                                 </a>
-                                <a href="?{% url_replace request 'o' '-last_name' %}">
-                                    <i class="fas fa-sort-down"></i>
+                                <a  style="font-size: 0px;" href="?{% url_replace request 'o' '-created_at' %}"
+                                    >
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                                        <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+                                      </svg>
                                 </a>
                             </div>
 
+                    </div>
+
+
+                </th>
+                <th scope="col" class="text-center align-content-center">
+                    <div class="d-flex align-items-center">
+                        Фамилия
+                        <div class="d-flex flex-column ms-3">
+                            <a style="font-size: 0px;"  href="?{% url_replace request 'o' 'last_name' %}" >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-up-fill" viewBox="0 0 16 16">
+                                    <path d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
+                                  </svg>
+                            </a >
+                             
+                             <a  style="font-size: 0px;" href="?{% url_replace request 'o' '-last_name' %}" >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                                    <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+                                  </svg>
+                             </a >
                         </div>
-                        {#                        <div class="d-flex flex-row justify-content-center align-items-center">#}
-                        {#                            <div>Фамилия</div>#}
-                        {#                            <div class="mx-2">#}
-                        {#                                <div class="d-flex justify-content-center align-items-end mt-auto">#}
-                        {#                                    <a href="?{% url_replace request 'o' 'last_name' %}">#}
-                        {#                                        <i class="fas fa-sort-up"></i>#}
-                        {#                                    </a>#}
-                        {#                                </div>#}
-                        {#                                <div>#}
-                        {#                                    <a href="?{% url_replace request 'o' '-last_name' %}">#}
-                        {#                                        <i class="fas fa-sort-down"></i>#}
-                        {#                                    </a>#}
-                        {#                                </div>#}
-                        {#                            </div>#}
-                        {#                        </div>#}
-                    </th>
-                    <th scope="col" class="text-center">
-                        Имя
-                    </th>
-                    <th scope="col" class="text-center">Отчество</th>
-                    <th scope="col" class="text-center">
 
+                    </div>
+                    
+                </th>
+                <th scope="col" class="text-center align-content-center">
+                    Имя
+                </th>
+                <th scope="col" class="text-center align-content-center">Отчество</th>
+                <th scope="col" class="text-center align-content-center">
+                    <div class="d-flex align-items-center">
                         Дата рождения
-                        <a href="?{% url_replace request 'o' 'date_of_birth' %}">
-                            <i class="fas fa-sort-up"></i>
+                        <div class="d-flex flex-column ms-3">
+                            <a style="font-size: 0px;" href="?{% url_replace request 'o' 'date_of_birth' %}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-up-fill" viewBox="0 0 16 16">
+                                    <path d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
+                                </svg>
+                            </a>
+
+                            <a style="font-size: 0px;" href="?{% url_replace request 'o' '-date_of_birth' %}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                                    <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </th>
+                <th scope="col" class="text-center align-content-center align-content-center">Комплектующий орган</th>
+                <th scope="col" class="text-center align-content-center">
+                    <div class="d-flex align-items-center">
+                        Средний балл
+                        <div class="d-flex flex-column ms-3">
+                            <a style="font-size: 0px;" href="?{% url_replace request 'o' 'average_mark' %}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-up-fill" viewBox="0 0 16 16">
+                                    <path d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
+                                </svg>
+                            </a>
+
+                            <a style="font-size: 0px;" href="?{% url_replace request 'o' '-average_mark' %}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                                    <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </th>
+                <th scope="col" class="text-center align-content-center">
+                    <div class="d-flex align-items-center">
+                        Русский язык
+                        <div class="d-flex flex-column ms-3">
+                    <a style="font-size: 0px;" href="?{% url_replace request 'o' 'rus_mark' %}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-up-fill" viewBox="0 0 16 16">
+                            <path d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
+                        </svg>
+                    </a>
+
+                    <a style="font-size: 0px;" href="?{% url_replace request 'o' '-rus_mark' %}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                            <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+                </th>
+                <th scope="col" class="text-center align-content-center">
+                    <div class="d-flex align-items-center">
+                        Белорусский язык
+                        <div class="d-flex flex-column ms-3">
+                        <a style="font-size: 0px;" href="?{% url_replace request 'o' 'bel_mark' %}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-up-fill" viewBox="0 0 16 16">
+                                <path d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
+                            </svg>
                         </a>
 
-                        <a href="?{% url_replace request 'o' '-date_of_birth' %}">
-                            <i class="fas fa-sort-down"></i>
+                        <a style="font-size: 0px;" href="?{% url_replace request 'o' '-bel_mark' %}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                                <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+                            </svg>
                         </a>
-                    </th>
-                    <th scope="col" class="text-center">Комплектующий орган</th>
-                    <th scope="col" class="text-center">Средний балл
-                        <a href="?{% url_replace request 'o' 'average_mark' %}">
-                            <i class="fas fa-sort-up"></i>
-                        </a>
-
-                        <a href="?{% url_replace request 'o' '-average_mark' %}">
-                            <i class="fas fa-sort-down"></i>
-                        </a>
-                    </th>
-                    <th scope="col" class="text-center">Русский язык
-                         <a href="?{% url_replace request 'o' 'rus_mark' %}">
-                            <i class="fas fa-sort-up"></i>
-                        </a>
-
-                        <a href="?{% url_replace request 'o' '-rus_mark' %}">
-                            <i class="fas fa-sort-down"></i>
-                        </a>
-                    </th>
-                    <th scope="col" class="text-center">Белорусский язык
-                        <a href="?{% url_replace request 'o' 'bel_mark' %}">
-                            <i class="fas fa-sort-up"></i>
+                    </div>
+                </div>
+                </th>
+                <th scope="col" class="text-center align-content-center">
+                    <div class="d-flex align-items-center">
+                        Математика
+                        <div class="d-flex flex-column ms-3">
+                        <a style="font-size: 0px;" href="?{% url_replace request 'o' 'math_mark' %}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-up-fill" viewBox="0 0 16 16">
+                                <path d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
+                            </svg>
                         </a>
 
-                        <a href="?{% url_replace request 'o' '-bel_mark' %}">
-                            <i class="fas fa-sort-down"></i>
+                        <a style="font-size: 0px;" href="?{% url_replace request 'o' '-math_mark' %}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                                <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+                            </svg>
                         </a>
-                    </th>
-                    <th scope="col" class="text-center">Математика
-                     <a href="?{% url_replace request 'o' 'math_mark' %}">
-                            <i class="fas fa-sort-up"></i>
-                        </a>
-
-                        <a href="?{% url_replace request 'o' '-math_mark' %}">
-                            <i class="fas fa-sort-down"></i>
-                        </a>
-                    </th>
-                    <th scope="col" class="text-center">В какой класс поступает
-
-                    <a href="?{% url_replace request 'o' 'class_he_goes_to' %}">
-                            <i class="fas fa-sort-up"></i>
-                        </a>
-
-                        <a href="?{% url_replace request 'o' '-class_he_goes_to' %}">
-                            <i class="fas fa-sort-down"></i>
+                    </div>
+                </div>
+                </th>
+                <th scope="col" class="text-center align-content-center">
+                    <div class="d-flex align-items-center">
+                        В какой класс поступает
+                        <div class="d-flex flex-column ms-3">
+                        <a style="font-size: 0px;" href="?{% url_replace request 'o' 'class_he_goes_to' %}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-up-fill" viewBox="0 0 16 16">
+                                <path d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
+                            </svg>
                         </a>
 
-                    </th>
-                    <th scope="col" class="text-center"></th>
-                    {#                    <th scope="col" class="text-center">Заявление</th>#}
-                    {#                    <th scope="col" class="text-center">Свидетельство о рождении или документ, удостоверяющий личность#}
-                    {#                    </th>#}
-                </tr>
-                </thead>
-                <tbody>
-                {% for applicant in applicant_list %}
-                    <tr ondblclick="window.location.href='{% url 'applicant:applicant-update-form' applicant.id %}'">
-                        <td class="text-center">{{ applicant.id|default_if_none:"" }}</td>
-                        <td class="text-center">{{ applicant.created_at|date:"SHORT_DATE_FORMAT" }} <br>
-                            {{ applicant.created_at|time:"H:i" }}
-                        </td>
-                        <td class="text-center">{{ applicant.last_name|default_if_none:"" }}</td>
-                        <td class="text-center">{{ applicant.first_name|default_if_none:"" }}</td>
-                        <td class="text-center">{{ applicant.patronymic|default_if_none:"" }}</td>
-                        <td class="text-center">{{ applicant.date_of_birth|default_if_none:"" }}</td>
-                        <td class="text-center">{{ applicant.complete_from|default_if_none:"" }}</td>
-                        <td class="text-center">{{ applicant.average_mark|default_if_none:"" }}</td>
-                        <td class="text-center">{{ applicant.rus_mark|default_if_none:"" }}</td>
-                        <td class="text-center">{{ applicant.bel_mark|default_if_none:"" }}</td>
-                        <td class="text-center">{{ applicant.math_mark|default_if_none:"" }}</td>
-                        <td class="text-center">{{ applicant.class_he_goes_to|default_if_none:"" }}</td>
-                        <td><a href="{% url 'applicant:applicant-delete' applicant.id %}" class="btn btn-light"><i
-                                class="fas fa-trash-alt"></i></a></td>
-                        {#                        <td class="text-center">{{ applicant.there_is_application }}</td>#}
-                        {#                        <td class="text-center">{{ applicant.there_is_birth_certificate }}</td>#}
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
+                        <a style="font-size: 0px;" href="?{% url_replace request 'o' '-class_he_goes_to' %}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                                <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
 
-            <nav aria-label="...">
-                <ul class="pagination pagination-sm">
-                    {% if applicant_list.has_previous %}
-                        <li class="page-item">
-                            <a class="btn btn-outline-dark"
-                               href="?{% url_replace request 'page' applicant_list.previous_page_number %}"><span
-                                    aria-hidden="true">&laquo;</span></a>
-                        </li>
-                    {% else %}
-                        <li class="page-item">
-                            <a class="btn btn-outline-dark disabled" href="#"><span
-                                    aria-hidden="true">&laquo;</span></a>
-                        </li>
-                    {% endif %}
-                    <li class="page-item d-flex align-items-center disabled">
-                        <b>&nbsp;&nbsp;Страница {{ applicant_list.number }} из {{ applicant_list.paginator.num_pages }}&nbsp;&nbsp;</b>
-                    </li>
-                    {% if applicant_list.has_next %}
-                        <li class="page-item">
-                            <a class="btn btn-outline-dark"
-                               href="?{% url_replace request 'page' applicant_list.next_page_number %}"><span
-                                    aria-hidden="true">&raquo;</span></a>
-                        </li>
-                    {% else %}
-                        <li class="page-item">
-                            <a class="btn btn-outline-dark disabled" href="#"><span
-                                    aria-hidden="true">&raquo;</span></a>
-                        </li>
-                    {% endif %}
-                </ul>
-            </nav>
-        {% else %}
-            <p class="fs-5">По Вашему запросу ничего не найдено. Измените параметры поиска</p>
-        {% endif %}
+                </th>
+                <th scope="col" class="text-center"></th>
+                {# <th scope="col" class="text-center">Заявление</th>#}
+                {# <th scope="col" class="text-center">Свидетельство о рождении или документ, удостоверяющий личность#}
+                    {# </th>#}
+            </tr>
+        </thead>
+        <tbody>
+            {% for applicant in applicant_list %}
+            <tr ondblclick="window.location.href='{% url 'applicant:applicant-update-form' applicant.id %}'">
+                <td class="text-center">{{ applicant.id|default_if_none:"" }}</td>
+                <td class="text-center">{{ applicant.created_at|date:"SHORT_DATE_FORMAT" }} <br>
+                    {{ applicant.created_at|time:"H:i" }}
+                </td>
+                <td class="text-center">{{ applicant.last_name|default_if_none:"" }}</td>
+                <td class="text-center">{{ applicant.first_name|default_if_none:"" }}</td>
+                <td class="text-center">{{ applicant.patronymic|default_if_none:"" }}</td>
+                <td class="text-center">{{ applicant.date_of_birth|default_if_none:"" }}</td>
+                <td class="text-center">{{ applicant.complete_from|default_if_none:"" }}</td>
+                <td class="text-center">{{ applicant.average_mark|default_if_none:"" }}</td>
+                <td class="text-center">{{ applicant.rus_mark|default_if_none:"" }}</td>
+                <td class="text-center">{{ applicant.bel_mark|default_if_none:"" }}</td>
+                <td class="text-center">{{ applicant.math_mark|default_if_none:"" }}</td>
+                <td class="text-center">{{ applicant.class_he_goes_to|default_if_none:"" }}</td>
+                <td><a href="{% url 'applicant:applicant-delete' applicant.id %}" class="btn btn-light"><i
+                            class="fas fa-trash-alt"></i></a></td>
+                {# <td class="text-center">{{ applicant.there_is_application }}</td>#}
+                {# <td class="text-center">{{ applicant.there_is_birth_certificate }}</td>#}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% include 'applicant/common_parts/paginator.html' %}
+
+    {% else %}
+    <p class="fs-5">По Вашему запросу ничего не найдено. Измените параметры поиска</p>
+    {% endif %}
 
 
-    </div>
+</div>
 
 
 
 {% endblock %}
 
 {% block own_js %}
-    <script>
-        (function () {
-            'use strict'
+<script>
+    (function () {
+        'use strict'
 
-            // Fetch all the forms we want to apply custom Bootstrap validation styles to
-            var forms = document.querySelectorAll('.needs-validation')
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.querySelectorAll('.needs-validation')
 
-            // Loop over them and prevent submission
-            Array.prototype.slice.call(forms)
-                .forEach(function (form) {
-                    form.addEventListener('submit', function (event) {
-                        if (!form.checkValidity()) {
-                            event.preventDefault()
-                            event.stopPropagation()
-                        }
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
 
-                        form.classList.add('was-validated')
-                    }, false)
-                })
-        })()
-    </script>
-    <script>
-        function orderBy(order) {
-
-            // const searchParams = new URLSearchParams(window.location.search);
-            //console.log(searchParams.get('registration_number')); // price_descending
-            //for (const param of searchParams) {
-            //      console.log(param);
-            // }
-
-
-        }
-    </script>
-    {#    <script src="{% static 'applicant/js/UI.js' %}"></script>#}
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
+</script>
+    
+<script src="{% static 'applicant/js/UI.js' %}"></script>
 {% endblock %}

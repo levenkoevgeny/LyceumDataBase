@@ -18,7 +18,8 @@
             </div>
         {% endif %}
         <div><h3 class="my-2">
-            <a onclick="window.history.back()" style="cursor: pointer" class="link-secondary">Вернуться к списку</a></h3>
+            <a onclick="window.history.back()" style="cursor: pointer" class="link-secondary">Вернуться к списку</a>
+        </h3>
         </div>
 
         <form action="{% url 'applicant:applicant-update-form' applicant_id=obj.id %}" method="post"
@@ -36,6 +37,11 @@
 
 {% block own_js %}
     <script src="{% static 'applicant/js/UI.js' %}"></script>
+    <script>
+        window.addEventListener("load", (event) => {
+            init_update_form();
+        });
+    </script>
     <script>
         (function () {
             'use strict'

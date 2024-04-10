@@ -123,13 +123,14 @@ class ApplicantPersonalFile(models.Model):
     first_name = models.CharField(verbose_name="Имя", max_length=200)
     patronymic = models.CharField(verbose_name="Отчество", max_length=200, blank=True, null=True)
     date_of_birth = models.DateField(verbose_name="Дата рождения")
-    # address_region = models.ForeignKey(AddressRegion, verbose_name="Адрес (область)", on_delete=models.SET_NULL, blank=True, null=True)
-    # address_district = models.ForeignKey(AddressDistrict, verbose_name="Адрес (район)", on_delete=models.SET_NULL, blank=True, null=True)
-    address_city = models.ForeignKey(AddressCity, verbose_name="Адрес (город)", on_delete=models.SET_NULL, blank=True, null=True)
+    address_city = models.ForeignKey(AddressCity, verbose_name="Адрес (город)", on_delete=models.SET_NULL, blank=True,
+                                     null=True)
     address = models.TextField(verbose_name="Домашний адрес (Улица, Номер дома, Номер квартиры)", blank=True, null=True)
     contact_number = models.TextField(verbose_name="Контактные данные законных представителей")
     complete_from = models.ForeignKey(CompleteFrom, verbose_name="Комплектующий орган", on_delete=models.CASCADE)
-    average_mark = models.FloatField(verbose_name="Средний бал свидетельства об общем базовом образовании")
+    average_mark = models.FloatField(verbose_name="Средний бал свидетельства об общем базовом образовании", blank=True,
+                                     null=True)
+    average_mark_year = models.FloatField(verbose_name="Средний бал ведомости годовых отметок", blank=True, null=True)
     class_he_goes_to = models.IntegerField(verbose_name="В какой класс поступает", choices=CLASS_IN_SCHOOL_CHOICES)
     there_is_application = models.BooleanField(verbose_name="Заявление (да/нет)", default=False)
     there_is_birth_certificate = models.BooleanField(verbose_name="Свидетельство о рождении (да/нет)", default=False)
@@ -138,7 +139,6 @@ class ApplicantPersonalFile(models.Model):
     there_is_certificate_of_education = models.BooleanField(
         verbose_name="Свидетельство об общем базовом образовании (да/нет)",
         default=False)
-
     privilege = models.ForeignKey(Privilege, verbose_name="Документы, подтверждающие право на льготы",
                                   on_delete=models.SET_NULL, blank=True, null=True)
     there_is_conclusion = models.BooleanField(verbose_name="Заключение об изучении кандидата (да/нет)")
