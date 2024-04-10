@@ -71,7 +71,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'LyceumDataBase.wsgi.application'
-
+CSRF_TRUSTED_ORIGINS = ['https://lyceum.amia.by', 'https://www.lyceum.amia.by']
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
