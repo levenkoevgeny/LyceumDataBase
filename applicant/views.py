@@ -18,6 +18,7 @@ import csv
 from io import BytesIO
 import pandas as pd
 from docx import Document
+from datetime import datetime
 
 
 @login_required
@@ -165,7 +166,7 @@ def init_db(request):
 
 
 def make_excel(queryset):
-    file_name = 'Sample.xls'
+    file_name = 'Выборка' + '_' + datetime.now().strftime("%Y:%m:%d_%H:%M") + '.xls'
     byte_buffer = BytesIO()
     df = pd.DataFrame.from_dict(
         queryset.values('last_name',
@@ -195,6 +196,8 @@ def make_excel(queryset):
                         'bel_mark',
                         'math_mark',
                         'sum_mark',
+                        'sum_mark',
+                        'average_mark_exams',
                         'language_for_study',
                         'fit',
                         'fit_diagnosis',
@@ -227,6 +230,7 @@ def make_excel(queryset):
                   'Отметка по Белорусский язык',
                   'Отметка по Математика',
                   'Сумма баллов по результатам вступительных испытаний',
+                  'Средний балл по результатам сдачи экзаменов',
                   'Иностранный язык в случае поступления',
                   'Прохождение ВВК',
                   'Диагноз (если не годен)',
@@ -271,6 +275,7 @@ def make_document(queryset):
                                                      'bel_mark',
                                                      'math_mark',
                                                      'sum_mark',
+                                                     'average_mark_exams',
                                                      'language_for_study',
                                                      'fit',
                                                      'fit_diagnosis',
@@ -306,7 +311,6 @@ def get_excel(request):
 
     if 'res_type' in request.GET:
         res_type = request.GET['res_type']
-        print('res_type', res_type)
     else:
         res_type = 'excel'
 
