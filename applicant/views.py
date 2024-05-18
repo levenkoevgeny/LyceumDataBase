@@ -185,21 +185,20 @@ def make_excel(queryset):
                         'there_is_mark_sheet',
                         'there_is_characteristic',
                         'there_is_certificate_of_education',
-                        'privilege',
+                        'privilege__privilege',
                         'there_is_conclusion',
                         'there_is_medical_certificate',
                         'there_is_card_extract',
                         'there_is_psychological_information',
-                        'language_math',
-                        'language_for_dictation',
+                        'language_math__language',
+                        'language_for_dictation__subject',
                         'rus_mark',
                         'bel_mark',
                         'math_mark',
                         'sum_mark',
-                        'sum_mark',
                         'average_mark_exams',
-                        'language_for_study',
-                        'fit',
+                        'language_for_study__foreign_language',
+                        'fit__vvk_result',
                         'fit_diagnosis',
                         'extra_data'
                         ))
@@ -239,7 +238,18 @@ def make_excel(queryset):
     df['Заявление (да/нет)'] = df['Заявление (да/нет)'].replace({True: 'Да', False: 'Нет'})
     df['Свидетельство о рождении (да/нет)'] = df['Свидетельство о рождении (да/нет)'].replace(
         {True: 'Да', False: 'Нет'})
-
+    df['Ведомость годовых отметок (да/нет)'] = df['Ведомость годовых отметок (да/нет)'].replace(
+        {True: 'Да', False: 'Нет'})
+    df['Характеристика (да/нет)'] = df['Характеристика (да/нет)'].replace({True: 'Да', False: 'Нет'})
+    df['Свидетельство об общем базовом образовании (да/нет)'] = df[
+        'Свидетельство об общем базовом образовании (да/нет)'].replace({True: 'Да', False: 'Нет'})
+    df['Заключение об изучении кандидата (да/нет)'] = df['Заключение об изучении кандидата (да/нет)'].replace(
+        {True: 'Да', False: 'Нет'})
+    df['Медицинская справка (да/нет)'] = df['Медицинская справка (да/нет)'].replace({True: 'Да', False: 'Нет'})
+    df['Выписка из медицинской карты за последние 5 лет  (да/нет)'] = df[
+        'Выписка из медицинской карты за последние 5 лет  (да/нет)'].replace({True: 'Да', False: 'Нет'})
+    df['Медицинская справка о состоянии здоровья, подтверждающая отсутствие учета'] = df[
+        'Медицинская справка о состоянии здоровья, подтверждающая отсутствие учета'].replace({True: 'Да', False: 'Нет'})
     writer = pd.ExcelWriter(byte_buffer, engine='xlsxwriter')
     df.to_excel(writer, sheet_name='Employee', index=False)
     writer.close()
@@ -264,20 +274,20 @@ def make_document(queryset):
                                                      'there_is_mark_sheet',
                                                      'there_is_characteristic',
                                                      'there_is_certificate_of_education',
-                                                     'privilege',
+                                                     'privilege__privilege',
                                                      'there_is_conclusion',
                                                      'there_is_medical_certificate',
                                                      'there_is_card_extract',
                                                      'there_is_psychological_information',
-                                                     'language_math',
-                                                     'language_for_dictation',
+                                                     'language_math__language',
+                                                     'language_for_dictation__subject',
                                                      'rus_mark',
                                                      'bel_mark',
                                                      'math_mark',
                                                      'sum_mark',
                                                      'average_mark_exams',
-                                                     'language_for_study',
-                                                     'fit',
+                                                     'language_for_study__foreign_language',
+                                                     'fit__vvk_result',
                                                      'fit_diagnosis',
                                                      'extra_data'
                                                      ))
