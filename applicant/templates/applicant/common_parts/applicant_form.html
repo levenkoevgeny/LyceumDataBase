@@ -298,9 +298,13 @@
         </div>
 
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-6">
                 <label class="form-label">Сумма баллов</label>
-                {% render_field applicant_form.sum_mark class+="form-control" min=0 %}
+                {% render_field applicant_form.sum_mark|append_attr:"disabled" class+="form-control" min=0 max=30 %}
+            </div>
+            <div class="col-lg-6">
+                <label class="form-label">Средний балл</label>
+                {% render_field applicant_form.average_mark_exams|append_attr:"disabled" class+="form-control" min=0 %}
             </div>
         </div>
     </div>

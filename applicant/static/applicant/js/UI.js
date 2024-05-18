@@ -5,6 +5,7 @@ let math_mark_elem = $("#id_math_mark")
 let average_mark_elem = $("#id_average_mark")
 let average_mark_year_elem = $("#id_average_mark_year")
 let sum_mark_elem = $("#id_sum_mark")
+let average_mark_exams_elem = $("#id_average_mark_exams")
 let fit_elem = $("#id_fit")
 let diagnosis_elem = $("#id_fit_diagnosis")
 
@@ -26,21 +27,27 @@ function on_fit_change() {
 }
 
 function on_mark_change() {
+    let counter = 0
     let rus_mark = 0;
     let bel_mark = 0;
     let math_mark = 0;
     if (rus_mark_elem.val()) {
         rus_mark = parseInt($("#id_rus_mark").val())
+        counter ++
     }
     if (bel_mark_elem.val()) {
         bel_mark = parseInt($("#id_bel_mark").val())
+        counter ++
     }
     if (math_mark_elem.val()) {
         math_mark = parseInt($("#id_math_mark").val())
+        counter ++
     }
 
     let sum = rus_mark + bel_mark + math_mark;
-    $("#id_sum_mark").val(sum);
+    let average_mark_exams = sum / counter
+    sum_mark_elem.val(sum);
+    average_mark_exams_elem.val(average_mark_exams.toFixed(2));
 }
 
 
@@ -88,19 +95,26 @@ function on_class_he_goes_to_change() {
 function on_language_for_dictation_change() {
     let id_language_for_dictation = language_for_dictation_elem.val();
     rus_mark_elem.prop("disabled", true);
+    rus_mark_elem.prop("required", false);
     bel_mark_elem.prop("disabled", true);
+    bel_mark_elem.prop("required", false);
     sum_mark_elem.prop("disabled", true);
+    average_mark_exams_elem.prop("disabled", true);
 
     if (parseInt(id_language_for_dictation) === 1) {
         rus_mark_elem.prop("disabled", false);
+        rus_mark_elem.prop("required", true);
         bel_mark_elem.prop("disabled", true).val('');
         sum_mark_elem.prop("disabled", false);
+        average_mark_exams_elem.prop("disabled", false);
     }
 
     if (parseInt(id_language_for_dictation) === 2) {
         rus_mark_elem.prop("disabled", true).val('');
         bel_mark_elem.prop("disabled", false);
+        bel_mark_elem.prop("required", true);
         sum_mark_elem.prop("disabled", false);
+        average_mark_exams_elem.prop("disabled", false);
     }
 }
 

@@ -38,7 +38,7 @@ class AddressCity(models.Model):
     district = models.ForeignKey(AddressDistrict, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.city + ' ' + self.district.district + ' район ' + self.district.region.region + ' область'
+        return self.city
 
     class Meta:
         verbose_name = 'Адрес (город)'
@@ -157,6 +157,8 @@ class ApplicantPersonalFile(models.Model):
     math_mark = models.IntegerField(verbose_name="Отметка по Математика", blank=True, null=True)
     sum_mark = models.IntegerField(verbose_name="Сумма баллов по результатам вступительных испытаний", blank=True,
                                    null=True)
+    average_mark_exams = models.FloatField(verbose_name="Средний балл по результатам сдачи экзаменов", blank=True,
+                                           null=True)
     language_for_study = models.ForeignKey(ForeignLanguage, verbose_name="Иностранный язык в случае поступления",
                                            on_delete=models.SET_NULL,
                                            blank=True, null=True)

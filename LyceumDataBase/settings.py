@@ -119,7 +119,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 LOGOUT_REDIRECT_URL = '/'
-LOGIN_REDIRECT_URL = '/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static').replace('\\', '/')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
