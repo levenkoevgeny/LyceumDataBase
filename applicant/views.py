@@ -169,7 +169,8 @@ def make_excel(queryset):
     file_name = 'Выборка' + '_' + datetime.now().strftime("%Y:%m:%d_%H:%M") + '.xls'
     byte_buffer = BytesIO()
     df = pd.DataFrame.from_dict(
-        queryset.values('last_name',
+        queryset.values('id',
+                        'last_name',
                         'first_name',
                         'patronymic',
                         'date_of_birth',
@@ -202,7 +203,8 @@ def make_excel(queryset):
                         'fit_diagnosis',
                         'extra_data'
                         ))
-    df.columns = ['Фамилия',
+    df.columns = ['Регистрационный номер',
+                  'Фамилия',
                   'Имя',
                   'Отчество',
                   'Дата рождения',
