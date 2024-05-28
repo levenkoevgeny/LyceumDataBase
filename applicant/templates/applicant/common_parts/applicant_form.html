@@ -236,8 +236,9 @@
                 </div>
             </div>
         </div>
+
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-6">
                 <div class="mb-3">
                     <label class="form-label">
                         Диагноз по ВВК (если не годен)
@@ -245,6 +246,15 @@
                     {% render_field applicant_form.fit_diagnosis class+="form-control" rows=2 disabled=true %}
                 </div>
             </div>
+            <div class="col-lg-6">
+                <div class="mb-3">
+                    <label class="form-label">
+                        Диагноз по ВВК (если не годен)
+                    </label>
+                    {% render_field applicant_form.privilege_description class+="form-control" rows=2 %}
+                </div>
+            </div>
+
         </div>
 
     </div>

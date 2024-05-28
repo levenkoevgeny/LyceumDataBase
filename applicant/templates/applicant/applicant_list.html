@@ -137,7 +137,7 @@
                     </th>
                     <th scope="col" class="text-center align-content-center">
                         <div class="d-flex align-items-center">
-                            Средний балл
+                            Сумма баллов на экзаменах
                             <div class="d-flex flex-column ms-3">
                                 <a style="font-size: 0px;" href="?{% url_replace request 'o' 'average_mark' %}">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -254,7 +254,7 @@
                         <td class="text-center">{{ applicant.patronymic|default_if_none:"" }}</td>
                         <td class="text-center">{{ applicant.date_of_birth|default_if_none:"" }}</td>
                         <td class="text-center">{{ applicant.complete_from|default_if_none:"" }}</td>
-                        <td class="text-center">{{ applicant.average_mark|default_if_none:"" }}</td>
+                        <td class="text-center">{{ applicant.sum_mark|default_if_none:"" }}</td>
                         <td class="text-center">{{ applicant.rus_mark|default_if_none:"" }}</td>
                         <td class="text-center">{{ applicant.bel_mark|default_if_none:"" }}</td>
                         <td class="text-center">{{ applicant.math_mark|default_if_none:"" }}</td>

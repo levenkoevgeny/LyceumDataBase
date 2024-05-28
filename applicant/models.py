@@ -141,6 +141,7 @@ class ApplicantPersonalFile(models.Model):
         default=False)
     privilege = models.ForeignKey(Privilege, verbose_name="Документы, подтверждающие право на льготы",
                                   on_delete=models.SET_NULL, blank=True, null=True)
+    privilege_description = models.TextField(verbose_name="Пояснение по льготе", blank=True, null=True)
     there_is_conclusion = models.BooleanField(verbose_name="Заключение об изучении кандидата (да/нет)")
     there_is_medical_certificate = models.BooleanField(verbose_name="Медицинская справка (да/нет)", default=False)
     there_is_card_extract = models.BooleanField(
