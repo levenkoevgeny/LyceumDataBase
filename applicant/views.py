@@ -126,7 +126,7 @@ def init_db(request):
         VVK.objects.create(pk=2, vvk_result="не годен")
 
         fake = Faker('ru_RU')
-        for i in range(10000):
+        for i in range(30):
             random_complete_from = CompleteFrom.objects.get(pk=random.randint(1, 2))
             random_privilege = Privilege.objects.get(pk=random.randint(1, 2))
             random_language_math = LanguageMath.objects.get(pk=random.randint(1, 2))
