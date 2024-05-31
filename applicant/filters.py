@@ -34,6 +34,7 @@ class ApplicantFilter(django_filters.FilterSet):
 
     is_chaes = django_filters.BooleanFilter(field_name='is_chaes')
     is_employee_child = django_filters.BooleanFilter(field_name='is_employee_child')
+    is_large_family = django_filters.BooleanFilter(field_name='is_large_family')
     math_mark_after_6_gte = django_filters.NumberFilter(field_name='math_mark_after_6', lookup_expr='gte')
     math_mark_after_6_lte = django_filters.NumberFilter(field_name='math_mark_after_6', lookup_expr='lte')
     physical_training_mark_after_6_gte = django_filters.NumberFilter(field_name='physical_training_mark_after_6', lookup_expr='gte')

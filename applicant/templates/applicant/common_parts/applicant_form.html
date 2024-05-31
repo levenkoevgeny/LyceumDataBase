@@ -261,24 +261,40 @@
     <div class="shadow p-3 mb-3 bg-body rounded">
         <div class="row">
             <div class="col-lg-6">
+                <div class="d-flex mb-3">
+                    <div class="form-check me-3">
+                        {% render_field applicant_form.is_chaes class+="form-check-input" %}
+                        <label class="form-check-label">
+                            ЧАЭС
+                        </label>
+                    </div>
 
-                <div class="form-check">
-                    {% render_field applicant_form.is_chaes class+="form-check-input" %}
-                    <label class="form-check-label">
-                        ЧАЭС
-                    </label>
+                    <div class="form-check me-3">
+                        {% render_field applicant_form.is_employee_child class+="form-check-input" %}
+                        <label class="form-check-label">
+                            Ребенок сотрудника
+                        </label>
+                    </div>
+
+                    <div class="form-check me-3">
+                        {% render_field applicant_form.is_large_family class+="form-check-input" %}
+                        <label class="form-check-label">
+                            Многодетный
+                        </label>
+                    </div>
                 </div>
-
-                <div class="form-check">
-                    {% render_field applicant_form.is_employee_child class+="form-check-input" %}
-                    <label class="form-check-label">
-                        Ребенок сотрудника
-                    </label>
-                </div>
-
             </div>
         </div>
-
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="mb-3">
+                    <label class="form-label">
+                        Предыдущее место учебы
+                    </label>
+                    {% render_field applicant_form.where_studied_previously class+="form-control" rows=2 %}
+                </div>
+            </div>
+        </div>
     </div>
 
 

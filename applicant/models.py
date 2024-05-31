@@ -144,12 +144,14 @@ class ApplicantPersonalFile(models.Model):
     privilege_description = models.TextField(verbose_name="Пояснение по льготе", blank=True, null=True)
 
     # новые поля
-
     is_chaes = models.BooleanField(verbose_name="ЧАЭС (да/нет)", default=False)
     is_employee_child = models.BooleanField(verbose_name="ЧАЭС (да/нет)", default=False)
+    is_large_family = models.BooleanField(verbose_name="Многодетная семья (да/нет)", default=False)
     math_mark_after_6 = models.IntegerField(verbose_name="Отметка по метематике после 6 класса", blank=True, null=True)
-    physical_training_mark_after_6 = models.IntegerField(verbose_name="Отметка по физической культуре после 6 класса", blank=True, null=True)
-
+    physical_training_mark_after_6 = models.IntegerField(verbose_name="Отметка по физической культуре после 6 класса",
+                                                         blank=True, null=True)
+    where_studied_previously = models.TextField(verbose_name="Учебное заведение, где обучался ранее", blank=True,
+                                                null=True)
     # новые поля
 
     there_is_conclusion = models.BooleanField(verbose_name="Заключение об изучении кандидата (да/нет)")

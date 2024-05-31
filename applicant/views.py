@@ -188,6 +188,14 @@ def make_excel(queryset):
                         'there_is_certificate_of_education',
                         'privilege__privilege',
                         'privilege_description',
+
+                        'is_chaes',
+                        'is_employee_child',
+                        'is_large_family',
+                        'math_mark_after_6',
+                        'physical_training_mark_after_6',
+                        'where_studied_previously',
+
                         'there_is_conclusion',
                         'there_is_medical_certificate',
                         'there_is_card_extract',
@@ -223,6 +231,14 @@ def make_excel(queryset):
                   'Свидетельство об общем базовом образовании (да/нет)',
                   'Документы, подтверждающие право на льготы',
                   'Пояснение по льготе',
+
+                  'ЧАЭС',
+                  'Ребенок сотрудника',
+                  'Многодетный',
+                  'Оценка по математике после 6 класса',
+                  'Оценка по физической культуре после 6 класса',
+                  'предыдущее место учебы',
+
                   'Заключение об изучении кандидата (да/нет)',
                   'Медицинская справка (да/нет)',
                   'Выписка из медицинской карты за последние 5 лет  (да/нет)',
@@ -254,6 +270,10 @@ def make_excel(queryset):
         'Выписка из медицинской карты за последние 5 лет  (да/нет)'].replace({True: 'Да', False: 'Нет'})
     df['Медицинская справка о состоянии здоровья, подтверждающая отсутствие учета'] = df[
         'Медицинская справка о состоянии здоровья, подтверждающая отсутствие учета'].replace({True: 'Да', False: 'Нет'})
+    df['ЧАЭС'] = df['ЧАЭС'].replace({True: 'Да', False: 'Нет'})
+    df['Ребенок сотрудника'] = df['Ребенок сотрудника'].replace({True: 'Да', False: 'Нет'})
+    df['Многодетный'] = df['Многодетный'].replace({True: 'Да', False: 'Нет'})
+
     writer = pd.ExcelWriter(byte_buffer, engine='xlsxwriter')
     df.to_excel(writer, sheet_name='Employee', index=False)
     writer.close()
