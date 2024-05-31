@@ -22,7 +22,7 @@ class AddressRegion(models.Model):
 
 class AddressDistrict(models.Model):
     district = models.CharField(max_length=255, verbose_name="Район")
-    region = models.ForeignKey(AddressRegion, on_delete=models.CASCADE)
+    region = models.ForeignKey(AddressRegion, on_delete=models.CASCADE, verbose_name="Область")
 
     def __str__(self):
         return self.district + ' район ' + self.region.region + ' область'
@@ -35,7 +35,7 @@ class AddressDistrict(models.Model):
 
 class AddressCity(models.Model):
     city = models.CharField(max_length=255, verbose_name="Город")
-    district = models.ForeignKey(AddressDistrict, on_delete=models.CASCADE)
+    district = models.ForeignKey(AddressDistrict, on_delete=models.CASCADE, verbose_name="Район")
 
     def __str__(self):
         return self.city
@@ -142,6 +142,16 @@ class ApplicantPersonalFile(models.Model):
     privilege = models.ForeignKey(Privilege, verbose_name="Документы, подтверждающие право на льготы",
                                   on_delete=models.SET_NULL, blank=True, null=True)
     privilege_description = models.TextField(verbose_name="Пояснение по льготе", blank=True, null=True)
+
+    # новые поля
+
+    is_chaes = models.BooleanField(verbose_name="ЧАЭС (да/нет)", default=False)
+    is_employee_child = models.BooleanField(verbose_name="ЧАЭС (да/нет)", default=False)
+    math_mark_after_6 = models.IntegerField(verbose_name="Отметка по метематике после 6 класса", blank=True, null=True)
+    physical_training_mark_after_6 = models.IntegerField(verbose_name="Отметка по физической культуре после 6 класса", blank=True, null=True)
+
+    # новые поля
+
     there_is_conclusion = models.BooleanField(verbose_name="Заключение об изучении кандидата (да/нет)")
     there_is_medical_certificate = models.BooleanField(verbose_name="Медицинская справка (да/нет)", default=False)
     there_is_card_extract = models.BooleanField(

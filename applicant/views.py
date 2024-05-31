@@ -98,7 +98,7 @@ def init_db(request):
             for row in csv_reader:
                 region, created = AddressRegion.objects.get_or_create(region=row[0])
                 district, created = AddressDistrict.objects.get_or_create(district=row[1], region=region)
-                AddressCity.objects.get_or_create(city=row[2], district=district)
+                AddressCity.objects.get_or_create(city='г. ' + row[2], district=district)
 
         CompleteFrom.objects.all().delete()
 

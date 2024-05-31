@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'rest_framework',
     'django_filters',
-    'applicant.apps.EnrolleConfig'
+    'applicant.apps.ApplicantConfig'
 ]
 
 MIDDLEWARE = [

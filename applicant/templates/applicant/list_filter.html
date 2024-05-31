@@ -120,16 +120,63 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-6">
+                <div class="col-lg-3">
                     <div class="mb-3">
-                        <label class="form-label">Комплектующие органы (можно несколько)</label>
+                        <label class="form-label">Математика после 6 кл. (с)</label>
+                        {% render_field filter.form.math_mark_after_6_gte class+="form-control" %}
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="mb-3">
+                        <label class="form-label">Математика после 6 кл. (по)</label>
+                        {% render_field filter.form.math_mark_after_6_lte class+="form-control" %}
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="mb-3">
+                        <label class="form-label">Физкультура после 6 кл. (с)</label>
+                        {% render_field filter.form.physical_training_mark_after_6_gte class+="form-control" %}
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="mb-3">
+                        <label class="form-label">Физкультура после 6 кл. (по)</label>
+                        {% render_field filter.form.physical_training_mark_after_6_lte class+="form-control" %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="mb-3">
+                        <label class="form-label">Комплектующие органы</label>
                         {% render_field filter.form.complete_from class+="form-select my-select2" style="width: 100%" %}
                     </div>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-4">
                     <div class="mb-3">
-                        <label class="form-label">ВВК (можно несколько)</label>
+                        <label class="form-label">ВВК</label>
                         {% render_field filter.form.fit class+="form-select my-select2" style="width: 100%" %}
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="mb-3">
+                        <label class="form-label">Льгота</label>
+                        {% render_field filter.form.privilege class+="form-select my-select2" style="width: 100%" %}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="mb-3">
+                        <label class="form-label">ЧАЭС</label>
+                        {% render_field filter.form.is_chaes class+="form-control" %}
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="mb-3">
+                        <label class="form-label">Дети сотрудников</label>
+                        {% render_field filter.form.is_employee_child class+="form-control" %}
                     </div>
                 </div>
             </div>

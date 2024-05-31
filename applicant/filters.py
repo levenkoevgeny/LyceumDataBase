@@ -30,6 +30,16 @@ class ApplicantFilter(django_filters.FilterSet):
     there_is_characteristic = django_filters.BooleanFilter(field_name='there_is_characteristic')
     there_is_certificate_of_education = django_filters.BooleanFilter(field_name='there_is_certificate_of_education')
     privilege = django_filters.ModelMultipleChoiceFilter(field_name='privilege', queryset=Privilege.objects.all())
+
+
+    is_chaes = django_filters.BooleanFilter(field_name='is_chaes')
+    is_employee_child = django_filters.BooleanFilter(field_name='is_employee_child')
+    math_mark_after_6_gte = django_filters.NumberFilter(field_name='math_mark_after_6', lookup_expr='gte')
+    math_mark_after_6_lte = django_filters.NumberFilter(field_name='math_mark_after_6', lookup_expr='lte')
+    physical_training_mark_after_6_gte = django_filters.NumberFilter(field_name='physical_training_mark_after_6', lookup_expr='gte')
+    physical_training_mark_after_6_lte = django_filters.NumberFilter(field_name='physical_training_mark_after_6', lookup_expr='lte')
+
+
     there_is_conclusion = django_filters.BooleanFilter(field_name='there_is_conclusion')
     there_is_medical_certificate = django_filters.BooleanFilter(field_name='there_is_medical_certificate')
     there_is_card_extract = django_filters.BooleanFilter(field_name='there_is_card_extract')
