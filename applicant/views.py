@@ -98,7 +98,7 @@ def init_db(request):
             for row in csv_reader:
                 region, created = AddressRegion.objects.get_or_create(region=row[0])
                 district, created = AddressDistrict.objects.get_or_create(district=row[1], region=region)
-                AddressCity.objects.get_or_create(city='г. ' + row[2], district=district)
+                AddressCity.objects.get_or_create(city='г. ' + row[2], district=district, district_str=district.district + ' р-н')
 
         CompleteFrom.objects.all().delete()
 
@@ -125,42 +125,42 @@ def init_db(request):
         VVK.objects.create(pk=1, vvk_result="годен")
         VVK.objects.create(pk=2, vvk_result="не годен")
 
-        fake = Faker('ru_RU')
-        for i in range(30):
-            random_complete_from = CompleteFrom.objects.get(pk=random.randint(1, 2))
-            random_privilege = Privilege.objects.get(pk=random.randint(1, 2))
-            random_language_math = LanguageMath.objects.get(pk=random.randint(1, 2))
-            random_subject = Subject.objects.get(pk=random.randint(1, 2))
-            random_foreign_language = ForeignLanguage.objects.get(pk=random.randint(1, 2))
-            random_vvk = VVK.objects.get(pk=random.randint(1, 2))
-            ApplicantPersonalFile.objects.create(
-                last_name=fake.last_name(),
-                first_name=fake.first_name(),
-                date_of_birth=fake.date_of_birth(minimum_age=14, maximum_age=16),
-                address=fake.address(),
-                contact_number=fake.phone_number(),
-                complete_from=random_complete_from,
-                average_mark=fake.pyfloat(right_digits=1, positive=True, min_value=6, max_value=9),
-                class_he_goes_to=fake.pyint(min_value=7, max_value=10),
-                there_is_application=fake.pybool(),
-                there_is_birth_certificate=fake.pybool(),
-                there_is_mark_sheet=fake.pybool(),
-                there_is_characteristic=fake.pybool(),
-                there_is_certificate_of_education=fake.pybool(),
-                privilege=random_privilege,
-                there_is_conclusion=fake.pybool(),
-                there_is_medical_certificate=fake.pybool(),
-                there_is_card_extract=fake.pybool(),
-                there_is_psychological_information=fake.pybool(),
-                language_math=random_language_math,
-                language_for_dictation=random_subject,
-                rus_mark=fake.pyint(min_value=7, max_value=10),
-                bel_mark=fake.pyint(min_value=7, max_value=10),
-                math_mark=fake.pyint(min_value=7, max_value=10),
-                sum_mark=fake.pyint(min_value=7, max_value=10),
-                language_for_study=random_foreign_language,
-                fit=random_vvk
-            )
+        # fake = Faker('ru_RU')
+        # for i in range(30):
+        #     random_complete_from = CompleteFrom.objects.get(pk=random.randint(1, 2))
+        #     random_privilege = Privilege.objects.get(pk=random.randint(1, 2))
+        #     random_language_math = LanguageMath.objects.get(pk=random.randint(1, 2))
+        #     random_subject = Subject.objects.get(pk=random.randint(1, 2))
+        #     random_foreign_language = ForeignLanguage.objects.get(pk=random.randint(1, 2))
+        #     random_vvk = VVK.objects.get(pk=random.randint(1, 2))
+        #     ApplicantPersonalFile.objects.create(
+        #         last_name=fake.last_name(),
+        #         first_name=fake.first_name(),
+        #         date_of_birth=fake.date_of_birth(minimum_age=14, maximum_age=16),
+        #         address=fake.address(),
+        #         contact_number=fake.phone_number(),
+        #         complete_from=random_complete_from,
+        #         average_mark=fake.pyfloat(right_digits=1, positive=True, min_value=6, max_value=9),
+        #         class_he_goes_to=fake.pyint(min_value=7, max_value=10),
+        #         there_is_application=fake.pybool(),
+        #         there_is_birth_certificate=fake.pybool(),
+        #         there_is_mark_sheet=fake.pybool(),
+        #         there_is_characteristic=fake.pybool(),
+        #         there_is_certificate_of_education=fake.pybool(),
+        #         privilege=random_privilege,
+        #         there_is_conclusion=fake.pybool(),
+        #         there_is_medical_certificate=fake.pybool(),
+        #         there_is_card_extract=fake.pybool(),
+        #         there_is_psychological_information=fake.pybool(),
+        #         language_math=random_language_math,
+        #         language_for_dictation=random_subject,
+        #         rus_mark=fake.pyint(min_value=7, max_value=10),
+        #         bel_mark=fake.pyint(min_value=7, max_value=10),
+        #         math_mark=fake.pyint(min_value=7, max_value=10),
+        #         sum_mark=fake.pyint(min_value=7, max_value=10),
+        #         language_for_study=random_foreign_language,
+        #         fit=random_vvk
+        #     )
 
         return HttpResponse("DB init is completed!!!")
 

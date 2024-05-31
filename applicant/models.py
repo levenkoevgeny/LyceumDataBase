@@ -36,9 +36,14 @@ class AddressDistrict(models.Model):
 class AddressCity(models.Model):
     city = models.CharField(max_length=255, verbose_name="Город")
     district = models.ForeignKey(AddressDistrict, on_delete=models.CASCADE, verbose_name="Район")
+    district_str = models.CharField(verbose_name="Район прописью (не заполнять)", max_length=255, null=True, blank=True)
 
     def __str__(self):
-        return self.city
+        return self.city + ' ' + self.district_str
+
+    def save(self, *args, **kwargs):
+        self.district_str = self.district.district + ' р-н'
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = 'Адрес (город)'
